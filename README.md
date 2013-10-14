@@ -1,5 +1,7 @@
 # Lockit
 
+[![Build Status](https://travis-ci.org/zeMirco/lockit.png?branch=master)](https://travis-ci.org/zeMirco/lockit)
+
 not ready yet .. come back later
 
 Lockit is an Express module that offers routes for user registration. It should be used as a starting point to add user
