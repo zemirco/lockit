@@ -1,0 +1,35 @@
+{
+  "name": "lockit",
+  "version": "0.0.1",
+  "description": "lockit",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt"
+  },
+  "keywords": [
+    "express",
+    "middleware",
+    "user",
+    "registration",
+    "signup",
+    "authorization",
+    "authentication"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "lockit-signup": "0.0.1",
+    "lockit-login": "0.0.1",
+    "lockit-forgot-password": "0.0.1",
+    "lockit-delete-account": "0.0.2"
+  },
+  "devDependencies": {
+    "express": "3.3.5",
+    "jade": "*",
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-mocha-test": "~0.7.0",
+    "supertest": "~0.8.0",
+    "should": "~2.0.1"
+  }
+}
