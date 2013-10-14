@@ -21,7 +21,9 @@
     "lockit-signup": "0.0.1",
     "lockit-login": "0.0.1",
     "lockit-forgot-password": "0.0.1",
-    "lockit-delete-account": "0.0.2"
+    "lockit-delete-account": "0.0.2",
+    "lockit-couchdb-adapter": "0.0.2",
+    "lockit-sendmail": "~0.0.2"
   },
   "devDependencies": {
     "express": "3.3.5",
