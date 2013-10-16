@@ -153,7 +153,7 @@ exports.emailForgotPassword = {
  - implementation of [lots of](https://www.owasp.org/index.php/Guide_to_Authentication) [best](http://stackoverflow.com/questions/549/the-definitive-guide-to-form-based-website-authentication) [pratices](https://www.owasp.org/index.php/Authentication_Cheat_Sheet)
 
 
-## Routes included?
+## Routes included
 
 From [lockit-signup](https://github.com/zeMirco/lockit-signup)
 
