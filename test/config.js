@@ -1,6 +1,6 @@
 exports.appname = 'Test App';
 exports.url = 'http://localhost:3000';
-exports.port = 3000; // Todo: use port instead full url
+exports.port = 3000;
 
 // email settings
 exports.emailType = 'Stub';
@@ -20,7 +20,7 @@ exports.signupTokenExpiration = 24 * 60 * 60 * 1000;
 exports.forgotPasswordRoute = '/forgot-password';
 exports.forgotPasswordTokenExpiration = 24 * 60 * 60 * 1000;
 
-// settings for test
+// settings for test (CouchDB)
 exports.db = 'couchdb';
 exports.dbUrl = 'http://127.0.0.1:5984/test';
 
