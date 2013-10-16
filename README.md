@@ -4,8 +4,8 @@
 
 not ready yet .. come back later
 
-Lockit is an Express module that offers routes for user registration. It should be used as a starting point to add user
- signup functionality to your app.
+Lockit is an Express module that offers routes and methods for user registration.
+It can be used as a starting point to add user signup functionality to your app.
 
 It consists of multiple single purpose modules:
 
@@ -15,7 +15,7 @@ It consists of multiple single purpose modules:
  - [lockit-forgot-password](https://github.com/zeMirco/lockit-forgot-password)
  - [lockit-sendmail](https://github.com/zeMirco/lockit-sendmail)
  - [lockit-couchdb-adapter](https://github.com/zeMirco/lockit-couchdb-adapter)
- - [lockit-mongodb-adapter]()
+ - [lockit-mongodb-adapter](https://github.com/zeMirco/lockit-mongodb-adapter)
 
 ## Features
 
@@ -31,7 +31,7 @@ It consists of multiple single purpose modules:
 
 ## Installation
 
-Simply install with `npm` and include the module in your Express configuration.
+Simply install with `npm` and include the module in your Express setup.
 
 `npm install lockit`
 
@@ -64,6 +64,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 You need to have a `config.js` somewhere in your app. Load this file into your app and call `lockit` with `app` as the
 first and `config` as the second argument.
 
+`lockit(app, config);`
+
 You need two things to run `lockit`. A database and an email service. As of now CouchDB and MongoDB are supported out
 of the box. More databases might come in the near future. The email service is needed to send email verification links
 and forgot password links. All email functionality is provided by [lockit-sendmail](https://github.com/zeMirco/lockit-sendmail)
@@ -74,7 +76,7 @@ Here is a minimal `config.js`.
 ```js
 exports.appname = 'Test App';
 exports.url = 'http://localhost:3000';
-// port is needed for tests - usually providing the full url is enough
+// port is needed for tests - providing the full url is usually enough
 exports.port = 3000;
 
 // email settings
@@ -95,11 +97,11 @@ exports.signupTokenExpiration = 24 * 60 * 60 * 1000;
 exports.forgotPasswordRoute = '/forgot-password';
 exports.forgotPasswordTokenExpiration = 24 * 60 * 60 * 1000;
 
-// settings for test (CouchDB)
+// database settings (CouchDB)
 exports.db = 'couchdb';
 exports.dbUrl = 'http://127.0.0.1:5984/test';
 
-// settings for test (MongoDB)
+// database settings (MongoDB)
 // exports.db = 'mongodb';
 // exports.dbUrl = 'mongodb://127.0.0.1/test';
 // exports.dbCollection = 'users';
@@ -116,7 +118,7 @@ exports.emailSignup = {
   linkText: 'Click here'
 };
 
-// signup process -> email already taken
+// email already taken template
 exports.emailSignupTaken = {
   subject: 'Email already registered',
   title: 'Email already registered',
@@ -129,7 +131,7 @@ exports.emailSignupTaken = {
   ].join('')
 };
 
-// signup process -> resend email with verification link
+// resend signup template
 exports.emailResendVerification = {
   subject: 'Complete your registration',
   title: 'Complete your registration',
@@ -141,7 +143,7 @@ exports.emailResendVerification = {
   linkText: 'Click here'
 };
 
-// forgot password
+// forgot password template
 exports.emailForgotPassword = {
   subject: 'Reset your password',
   title: 'Reset your password',
