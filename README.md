@@ -20,14 +20,16 @@ It consists of multiple single purpose modules:
 ## Features
 
  - responsive html email templates
+ - two html templates: [blank]() and [base boxed basic query](https://github.com/mailchimp/email-blueprints/blob/master/responsive-templates/base_boxed_basic_query.html)
  - full control over view and email templates
  - CouchDB and MongoDB support out of the box
  - email address verification
  - verification link expiration
  - failed login tracking
- - automatic password hash generation with bcrypt
- - implementation of best pratices
+ - redirects to /login and then requested page
+ - password hash generation with bcrypt
  - unit tests for all modules
+ - implementation of [lots of](https://www.owasp.org/index.php/Guide_to_Authentication) [best](http://stackoverflow.com/questions/549/the-definitive-guide-to-form-based-website-authentication) [pratices](https://www.owasp.org/index.php/Authentication_Cheat_Sheet)
 
 ## Installation
 
