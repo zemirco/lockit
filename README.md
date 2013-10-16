@@ -61,8 +61,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 ## Configuration
 
-You need to have a `config.js` somewhere in your app. Load this file into your app and call `lockit` with `app` as the
-first and `config` as the second argument.
+You need to have a `config.js` somewhere in your app. Load this file into your app via `var config = require('./config.js')`
+and call `lockit` with `app` as the first and `config` as the second argument.
 
 `lockit(app, config);`
 
