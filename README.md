@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/zeMirco/lockit.png?branch=master)](https://travis-ci.org/zeMirco/lockit)
 
-not ready yet .. come back later
-
 Lockit is an Express module that offers routes and methods for user registration.
 It can be used as a starting point to add user signup functionality to your app.
 
@@ -17,21 +15,7 @@ It consists of multiple single purpose modules:
  - [lockit-couchdb-adapter](https://github.com/zeMirco/lockit-couchdb-adapter)
  - [lockit-mongodb-adapter](https://github.com/zeMirco/lockit-mongodb-adapter)
 
-## Features
-
- - two responsive html email templates: [blank]() and [base boxed basic query](https://github.com/mailchimp/email-blueprints/blob/master/responsive-templates/base_boxed_basic_query.html)
- - CouchDB and MongoDB support out of the box
- - email address verification
- - verification link expiration
- - failed login tracking
- - /login redirection when user is unauthorized
- - password hash generation with bcrypt
- - unit tests for all modules
- - implementation of [lots of](https://www.owasp.org/index.php/Guide_to_Authentication) [best](http://stackoverflow.com/questions/549/the-definitive-guide-to-form-based-website-authentication) [pratices](https://www.owasp.org/index.php/Authentication_Cheat_Sheet)
-
 ## Installation
-
-Simply install with `npm` and include the module in your Express setup.
 
 `npm install lockit`
 
@@ -156,7 +140,20 @@ exports.emailForgotPassword = {
 };
 ```
 
-## What routes are included?
+## Features
+
+ - two responsive html email templates: [blank]() and [base boxed basic query](https://github.com/mailchimp/email-blueprints/blob/master/responsive-templates/base_boxed_basic_query.html)
+ - CouchDB and MongoDB support out of the box
+ - email address verification
+ - verification link expiration
+ - failed login tracking
+ - /login redirection when user is unauthorized
+ - password hash generation with bcrypt
+ - unit tests for all modules
+ - implementation of [lots of](https://www.owasp.org/index.php/Guide_to_Authentication) [best](http://stackoverflow.com/questions/549/the-definitive-guide-to-form-based-website-authentication) [pratices](https://www.owasp.org/index.php/Authentication_Cheat_Sheet)
+
+
+## Routes included?
 
 From [lockit-signup](https://github.com/zeMirco/lockit-signup)
 
