@@ -18,12 +18,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "lockit-signup": "0.0.1",
-    "lockit-login": "0.0.1",
-    "lockit-forgot-password": "0.0.1",
-    "lockit-delete-account": "0.0.2",
-    "lockit-couchdb-adapter": "0.0.2",
-    "lockit-sendmail": "~0.0.2"
+    "lockit-signup": "0.0.3",
+    "lockit-login": "0.0.2",
+    "lockit-forgot-password": "0.0.3",
+    "lockit-delete-account": "0.0.4",
+    "lockit-couchdb-adapter": "0.0.3",
+    "lockit-sendmail": "0.0.3"
   },
   "devDependencies": {
     "express": "3.3.5",
