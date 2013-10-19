@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/zeMirco/lockit.png?branch=master)](https://travis-ci.org/zeMirco/lockit) [![NPM version](https://badge.fury.io/js/lockit.png)](http://badge.fury.io/js/lockit)
 
-[![NPM](https://nodei.co/npm/lockit-login.png)](https://nodei.co/npm/lockit-login/)
+[![NPM](https://nodei.co/npm/lockit.png)](https://nodei.co/npm/lockit/)
 
 Lockit is an Express module that offers routes and methods for user registration.
 It can be used as a starting point to add user signup functionality to your app.
