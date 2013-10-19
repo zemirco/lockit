@@ -1,6 +1,8 @@
 # Lockit
 
-[![Build Status](https://travis-ci.org/zeMirco/lockit.png?branch=master)](https://travis-ci.org/zeMirco/lockit)
+[![Build Status](https://travis-ci.org/zeMirco/lockit.png?branch=master)](https://travis-ci.org/zeMirco/lockit) [![NPM version](https://badge.fury.io/js/lockit.png)](http://badge.fury.io/js/lockit)
+
+[![NPM](https://nodei.co/npm/lockit-login.png)](https://nodei.co/npm/lockit-login/)
 
 Lockit is an Express module that offers routes and methods for user registration.
 It can be used as a starting point to add user signup functionality to your app.
@@ -142,9 +144,10 @@ exports.emailForgotPassword = {
 
 ## Features
 
- - two responsive html email templates: [blank]() and [base boxed basic query](https://github.com/mailchimp/email-blueprints/blob/master/responsive-templates/base_boxed_basic_query.html)
+ - two responsive html email templates: [blank](https://github.com/zeMirco/lockit-sendmail/blob/master/templates/blank/index.html) and [base boxed basic query](https://github.com/mailchimp/email-blueprints/blob/master/responsive-templates/base_boxed_basic_query.html)
  - CouchDB and MongoDB support out of the box
  - email address verification
+ - account locking after too many failed login attempts
  - verification link expiration
  - failed login tracking
  - /login redirection when user is unauthorized
