@@ -19,7 +19,7 @@
   "license": "MIT",
   "dependencies": {
     "lockit-signup": "0.0.3",
-    "lockit-login": "0.0.2",
+    "lockit-login": "0.0.3",
     "lockit-forgot-password": "0.0.3",
     "lockit-delete-account": "0.0.4",
     "lockit-couchdb-adapter": "0.0.3",

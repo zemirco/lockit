@@ -12,6 +12,13 @@ exports.emailSettings = {
   }
 };
 
+// lock account
+exports.failedLoginsWarning = 3;
+exports.failedLoginAttempts = 5;
+
+// set to 5 seconds for testing
+exports.accountLockedTime = 5000;
+
 // signup settings
 exports.signupRoute = '/signup';
 exports.signupTokenExpiration = 24 * 60 * 60 * 1000;
