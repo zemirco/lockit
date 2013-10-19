@@ -1,7 +1,7 @@
 {
   "name": "lockit",
   "version": "0.0.2",
-  "description": "lockit",
+  "description": "Routes and methods for user registration for Express apps",
   "main": "index.js",
   "scripts": {
     "test": "grunt"
@@ -15,8 +15,16 @@
     "authorization",
     "authentication"
   ],
-  "author": "",
+  "author": {
+    "name": "Mirco Zeiss",
+    "email": "mirco.zeiss@gmail.com",
+    "twitter": "zeMirco"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zeMirco/lockit"
+  },
   "dependencies": {
     "lockit-signup": "0.0.3",
     "lockit-login": "0.0.3",
