@@ -75,6 +75,8 @@ exports.emailSettings = {
   }
 };
 
+exports.emailTemplate = 'blank';
+
 // signup settings
 exports.signupRoute = '/signup';
 exports.signupTokenExpiration = 24 * 60 * 60 * 1000;
@@ -91,6 +93,14 @@ exports.dbUrl = 'http://127.0.0.1:5984/test';
 // exports.db = 'mongodb';
 // exports.dbUrl = 'mongodb://127.0.0.1/test';
 // exports.dbCollection = 'users';
+
+// lock account
+// show warning after three failed login attempts
+exports.failedLoginsWarning = 3;
+// lock account after five failed login attempts
+exports.failedLoginAttempts = 5;
+// lock account for 20 minutes
+exports.accountLockedTime = 1000 * 60 * 20;
 
 // email signup template
 exports.emailSignup = {
