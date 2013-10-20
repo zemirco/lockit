@@ -1,6 +1,6 @@
 {
   "name": "lockit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Routes and methods for user registration for Express apps",
   "main": "index.js",
   "scripts": {
@@ -31,7 +31,8 @@
     "lockit-forgot-password": "0.0.3",
     "lockit-delete-account": "0.0.4",
     "lockit-couchdb-adapter": "0.0.3",
-    "lockit-sendmail": "0.0.3"
+    "lockit-sendmail": "0.0.3",
+    "nano": "~4.1.4"
   },
   "devDependencies": {
     "express": "3.3.5",
