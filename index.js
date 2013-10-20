@@ -42,16 +42,15 @@ function createCouchDBViews(config) {
 
   // check if views were already created
   db.get('_design/users', function(err, body) {
-    if (err) console.log(err);
-
-    // save views to db if they don't exist
-    if (!body) {
+    if (err.status_code === 404) {
+      // save views to db if they don't exist
       db.insert(views, function(err, body) {
         if (err) console.log(err);
-        console.log('done');
+        console.log('CouchDB views created');
       });
+    } else if (err) {
+      console.log(err);
     }
-
   });
 
 }
