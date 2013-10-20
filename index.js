@@ -40,11 +40,20 @@ function createCouchDBViews(config) {
     }
   };
 
-  // save views to db
-  db.insert(views, function(err, body) {
+  // check if views were already created
+  db.get('_design/users', function(err, body) {
     if (err) console.log(err);
-    console.log('done');
+
+    // save views to db if they don't exist
+    if (!body) {
+      db.insert(views, function(err, body) {
+        if (err) console.log(err);
+        console.log('done');
+      });
+    }
+
   });
+
 }
 
 // just a wrapper around the single modules
