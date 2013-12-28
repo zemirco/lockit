@@ -7,7 +7,6 @@ var signup = require('lockit-signup');
 var login = require('lockit-login');
 var forgotPassword = require('lockit-forgot-password');
 var deleteAccount = require('lockit-delete-account');
-var profile = require('lockit-profile');
 
 var configDefault = require('./config.default.js');
 
@@ -99,6 +98,5 @@ module.exports = function(app, config) {
   login(app, config);
   forgotPassword(app, config);
   deleteAccount(app, config);
-  profile(app, config);
 
 };
