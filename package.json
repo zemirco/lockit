@@ -26,21 +26,22 @@
     "url": "https://github.com/zeMirco/lockit"
   },
   "dependencies": {
-    "lockit-signup": "0.0.3",
+    "xtend": "~2.1.1",
+    "debug": "~0.7.4",
+    "nano": "~4.2.1",
+    "lockit-signup": "0.0.5",
     "lockit-login": "0.0.3",
-    "lockit-forgot-password": "0.0.3",
-    "lockit-delete-account": "0.0.4",
-    "lockit-couchdb-adapter": "0.0.3",
-    "lockit-sendmail": "0.0.3",
-    "nano": "~4.1.4"
+    "lockit-forgot-password": "0.0.5",
+    "lockit-delete-account": "0.0.5",
+    "lockit-profile": "0.0.1"
   },
   "devDependencies": {
     "express": "3.3.5",
     "jade": "*",
-    "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.4",
-    "grunt-mocha-test": "~0.7.0",
-    "supertest": "~0.8.0",
-    "should": "~2.0.1"
+    "should": "~2.1.1",
+    "supertest": "~0.8.2",
+    "grunt-mocha-test": "~0.8.1",
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.8.0"
   }
 }
