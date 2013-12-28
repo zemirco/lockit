@@ -16,6 +16,8 @@ It consists of multiple single purpose modules:
  - [lockit-sendmail](https://github.com/zeMirco/lockit-sendmail)
  - [lockit-couchdb-adapter](https://github.com/zeMirco/lockit-couchdb-adapter)
  - [lockit-mongodb-adapter](https://github.com/zeMirco/lockit-mongodb-adapter)
+ - [lockit-utilities](https://github.com/zeMirco/lockit-utilities)
+ - [lockit-template-blank](https://github.com/zeMirco/lockit-template-blank)
 
 ## Installation
 
@@ -23,17 +25,13 @@ It consists of multiple single purpose modules:
 
 ```js
 var config = require('./config.js');
-var signup = require('lockit');
+var lockit = require('lockit');
 
 var app = express();
 
-// set basedir so views can properly extend layout.jade
-app.locals.basedir = __dirname + '/views';
-
-// express settings
+// express middleware
 // ...
-
-// sessions are required - either cookie or some sort of db
+// sessions are required
 app.use(express.cookieParser('your secret here'));
 app.use(express.cookieSession());
 app.use(app.router);
@@ -41,29 +39,39 @@ app.use(app.router);
 // use middleware after router so it doesn't interfere with your own routes
 lockit(app, config);
 
-// serve static files as last middleware
-app.use(express.static(path.join(__dirname, 'public')));
+// continue with express middleware
+// ...
 ```
 
 ## Configuration
 
-You need to have a `config.js` somewhere in your app. Load this file into your app via `var config = require('./config.js')`
-and call `lockit` with `app` as the first and `config` as the second argument.
+Create a `config.js` file somewhere in your app. Require this file 
+via `var config = require('./config.js')` and init `lockit`.
 
 `lockit(app, config);`
 
-You need two things to run `lockit`. A database and an email service. As of now CouchDB and MongoDB are supported out
-of the box. More databases might come in the near future. The email service is needed to send email verification links
-and forgot password links. All email functionality is provided by [lockit-sendmail](https://github.com/zeMirco/lockit-sendmail)
-which uses [nodemailer](https://github.com/andris9/Nodemailer) under the hood. Therefore the settings are the same.
+Here is a minimalistic `config.js` file to get started
+ 
+```js
+// database settings for CouchDB
+exports.db = 'couchdb';
+exports.dbUrl = 'http://127.0.0.1:5984/test';
 
-Here is a minimal `config.js`.
+// or if you want to use MongoDB
+// exports.db = 'mongodb';
+// exports.dbUrl = 'mongodb://127.0.0.1/test';
+// exports.dbCollection = 'users';
+```
+
+The only thing you need is a database. By default the email service is stubbed and no 
+emails are sent. That means that you won't receive any signup and password reset tokens. 
+You have to look them up in your database and call the routes manually.
+
+If you want to go crazy and customize all the things you can:
 
 ```js
 exports.appname = 'Test App';
 exports.url = 'http://localhost:3000';
-// port is needed for tests - providing the full url is usually enough
-exports.port = 3000;
 
 // email settings
 exports.emailType = 'Stub';
@@ -79,20 +87,11 @@ exports.emailTemplate = 'blank';
 
 // signup settings
 exports.signupRoute = '/signup';
-exports.signupTokenExpiration = 24 * 60 * 60 * 1000;
+exports.signupTokenExpiration = '1 day';
 
 // forgot password settings
 exports.forgotPasswordRoute = '/forgot-password';
-exports.forgotPasswordTokenExpiration = 24 * 60 * 60 * 1000;
-
-// database settings (CouchDB)
-exports.db = 'couchdb';
-exports.dbUrl = 'http://127.0.0.1:5984/test';
-
-// database settings (MongoDB)
-// exports.db = 'mongodb';
-// exports.dbUrl = 'mongodb://127.0.0.1/test';
-// exports.dbCollection = 'users';
+exports.forgotPasswordTokenExpiration = '1 day';
 
 // lock account
 // show warning after three failed login attempts
@@ -100,7 +99,7 @@ exports.failedLoginsWarning = 3;
 // lock account after five failed login attempts
 exports.failedLoginAttempts = 5;
 // lock account for 20 minutes
-exports.accountLockedTime = 1000 * 60 * 20;
+exports.accountLockedTime = '20 minutes';
 
 // email signup template
 exports.emailSignup = {
@@ -172,7 +171,7 @@ From [lockit-signup](https://github.com/zeMirco/lockit-signup)
 
  - GET /signup
  - POST /signup
- - GET /signup/:token
+ - GET /signup/verify/:token
  - GET /signup/resend-verification
  - POST /signup/resend-verification
 
