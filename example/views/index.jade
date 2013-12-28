@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  p Routes accessible by everyone
+  ul
+    li: a(href="/signup") Signup
+    li: a(href="/signup/resend-verification") Resend signup email verification
+    li: a(href="/forgot-password") Forgot password
+    li: a(href="/login") Login
+  p Restricted routes
+  ul
+    li: a(href="/profile") Profile
+    li: a(href="/logout") Logout
+    li: a(href="/delete-account") Delete account
