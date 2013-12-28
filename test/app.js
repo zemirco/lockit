@@ -22,8 +22,6 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
-// disable logger - just for testing
-// app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 
