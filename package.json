@@ -31,7 +31,7 @@
     "nano": "~4.2.1",
     "lockit-signup": "0.0.5",
     "lockit-login": "0.0.4",
-    "lockit-forgot-password": "0.0.6",
+    "lockit-forgot-password": "0.0.7",
     "lockit-delete-account": "0.0.5",
     "lockit-utils": "0.0.2"
   },
