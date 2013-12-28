@@ -1,0 +1,32 @@
+extend /layout
+
+block content
+  p Hello #{username}
+  p Here are some infos about you
+  div.row
+    div.col-lg-6.col-lg-offset-3.col-md-6.col-md-offset-3
+      table.table
+        tr
+          td Username
+          td #{username}
+        tr
+          td Email
+          td #{email}
+        tr
+          td Member for
+          td #{memberFor}
+        tr
+          td Last login
+          td #{previousLoginTime}
+        tr
+          td Last login ip
+          td #{previousLoginIp}
+        tr
+          td Current login
+          td #{currentLoginTime}
+        tr
+          td Current login ip
+          td #{currentLoginIp}
+        tr
+          td Failed login attempts
+          td #{failedLoginAttempts}
