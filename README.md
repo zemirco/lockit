@@ -45,12 +45,8 @@ lockit(app, config);
 
 ## Configuration
 
-Create a `config.js` file somewhere in your app. Require this file 
-via `var config = require('./config.js')` and init `lockit`.
-
-`lockit(app, config);`
-
-Here is a minimalistic `config.js` file to get started
+You need a `config.js` file somewhere in your app. 
+Here is a minimalistic one to get started
  
 ```js
 // database settings for CouchDB
