@@ -4,3 +4,4 @@ node_js:
 services: couchdb
 before_script:
   - npm install -g grunt-cli
+  - curl -X PUT localhost:5984/test
