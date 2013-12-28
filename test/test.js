@@ -31,8 +31,8 @@ describe('lockit', function() {
     request(app)
       .get('/delete-account')
       .end(function(err, res) {
-        res.statusCode.should.equal(200);
-        res.text.should.include('<title>Delete account</title>');
+        // no session -> redirected to /login
+        res.statusCode.should.equal(302);
         done();
       });
   });
