@@ -6,6 +6,7 @@
 var express = require('express');
 var routes = require('./routes');
 var user = require('./routes/user');
+var profile = require('./routes/profile');
 var http = require('http');
 var path = require('path');
 
@@ -46,10 +47,7 @@ if ('development' == app.get('env')) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
-
-app.get('/secret', utls.restrict(config), function(req, res) {
-  res.send('Only registered users can see this');
-});
+app.get('/profile', utls.restrict(config), profile.index);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
