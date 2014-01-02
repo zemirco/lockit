@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/lockit.png)](https://nodei.co/npm/lockit/)
 
-Lockit is an Express module that offers routes and methods for user registration.
+Lockit is an Express module that offers routes and methods for user registration / authentication.
 It can be used as a starting point to add user signup functionality to your app.
 
 It consists of multiple single purpose modules:
@@ -156,7 +156,7 @@ exports.emailForgotPassword = {
 
 ## Features
 
- - two responsive html email templates: [blank](https://github.com/zeMirco/lockit-sendmail/blob/master/templates/blank/index.html) and [base boxed basic query](https://github.com/mailchimp/email-blueprints/blob/master/responsive-templates/base_boxed_basic_query.html)
+ - responsive html email template: [lockit-template-blank](https://github.com/zeMirco/lockit-template-blank)
  - CouchDB and MongoDB support out of the box
  - email address verification
  - account locking after too many failed login attempts
@@ -174,7 +174,7 @@ From [lockit-signup](https://github.com/zeMirco/lockit-signup)
 
  - GET /signup
  - POST /signup
- - GET /signup/verify/:token
+ - GET /signup/:token
  - GET /signup/resend-verification
  - POST /signup/resend-verification
 
