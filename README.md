@@ -43,6 +43,13 @@ lockit(app, config);
 // ...
 ```
 
+Templates are built on (bootstrap)[http://getbootstrap.com/]. Download `bootstrap.min.css`,
+copy to `/public/css/` and load the file in `layout.jade`
+ 
+```
+link(rel='stylesheet', href='/css/bootstrap.min.css')
+```
+
 ## Configuration
 
 You need a `config.js` file somewhere in your app. 
