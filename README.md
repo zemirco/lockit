@@ -43,7 +43,7 @@ lockit(app, config);
 // ...
 ```
 
-Templates are built on (bootstrap)[http://getbootstrap.com/]. Download `bootstrap.min.css`,
+Templates are built on [bootstrap](http://getbootstrap.com/). Download `bootstrap.min.css`,
 copy to `/public/css/` and load the file in `layout.jade`
  
 ```
