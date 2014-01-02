@@ -23,6 +23,7 @@ exports.signupTokenExpiration = '1 day';
 
 // login settings
 exports.loginRoute = '/login';
+exports.logoutRoute = '/logout';
 
 // forgot password settings
 exports.forgotPasswordRoute = '/forgot-password';
