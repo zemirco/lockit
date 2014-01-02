@@ -89,6 +89,10 @@ exports.emailTemplate = 'lockit-template-blank';
 exports.signupRoute = '/signup';
 exports.signupTokenExpiration = '1 day';
 
+// login settings
+exports.loginRoute = '/login';
+exports.logoutRoute = '/logout';
+
 // forgot password settings
 exports.forgotPasswordRoute = '/forgot-password';
 exports.forgotPasswordTokenExpiration = '1 day';
