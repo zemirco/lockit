@@ -66,10 +66,13 @@ You have to look them up in your database and call the routes manually.
 If you want to go crazy and customize all the things you can:
 
 ```js
+// name for subject and email content
 exports.appname = 'Test App';
+
+// url for proper link generation
 exports.url = 'http://localhost:3000';
 
-// email settings
+// email settings (same as nodemailer)
 exports.emailType = 'Stub';
 exports.emailSettings = {
   service: 'none',
@@ -79,7 +82,8 @@ exports.emailSettings = {
   }
 };
 
-exports.emailTemplate = 'blank';
+// email template from npm
+exports.emailTemplate = 'lockit-template-blank';
 
 // signup settings
 exports.signupRoute = '/signup';
@@ -96,6 +100,9 @@ exports.failedLoginsWarning = 3;
 exports.failedLoginAttempts = 5;
 // lock account for 20 minutes
 exports.accountLockedTime = '20 minutes';
+
+// public email address of your app
+exports.emailFrom = 'welcome@lock.it';
 
 // email signup template
 exports.emailSignup = {
