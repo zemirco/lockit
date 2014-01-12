@@ -20,38 +20,38 @@ It consists of multiple single purpose modules:
 
 ## Installation
 
-  1. `npm install lockit`
+I. `npm install lockit`
+
+  ```js
+  var config = require('./config.js');
+  var lockit = require('lockit');
   
-    ```js
-    var config = require('./config.js');
-    var lockit = require('lockit');
-    
-    var app = express();
-    
-    // express middleware
-    // ...
-    // sessions are required
-    app.use(express.cookieParser('your secret here'));
-    app.use(express.cookieSession());
-    app.use(app.router);
-    
-    // use middleware after router so it doesn't interfere with your own routes
-    lockit(app, config);
-    
-    // continue with express middleware
-    // ...
-    ```
+  var app = express();
   
-  2. Views are built with [bootstrap](http://getbootstrap.com/):
+  // express middleware
+  // ...
+  // sessions are required
+  app.use(express.cookieParser('your secret here'));
+  app.use(express.cookieSession());
+  app.use(app.router);
   
-    - download `bootstrap.min.css`
-    - copy to `/public/css/`
-    - load the file in `layout.jade` -> `link(rel='stylesheet', href='/css/bootstrap.min.css')`
+  // use middleware after router so it doesn't interfere with your own routes
+  lockit(app, config);
   
-  3. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
-  
-    - [CouchDB](http://couchdb.apache.org/) `npm install lockit-couchdb-adapter`
-    - [MongoDB](http://www.mongodb.org/) `npm install lockit-mongodb-adapter`
+  // continue with express middleware
+  // ...
+  ```
+
+II. Views are built with [bootstrap](http://getbootstrap.com/):
+
+  - download `bootstrap.min.css`
+  - copy to `/public/css/`
+  - load the file in `layout.jade` -> `link(rel='stylesheet', href='/css/bootstrap.min.css')`
+
+III. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
+
+  - [CouchDB](http://couchdb.apache.org/) `npm install lockit-couchdb-adapter`
+  - [MongoDB](http://www.mongodb.org/) `npm install lockit-mongodb-adapter`
 
 ## Configuration
 
