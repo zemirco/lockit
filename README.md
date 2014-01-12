@@ -5,7 +5,6 @@
 [![NPM](https://nodei.co/npm/lockit.png)](https://nodei.co/npm/lockit/)
 
 Lockit is an Express module that offers routes and methods for user registration / authentication.
-It can be used as a starting point to add user signup functionality to your app.
 
 It consists of multiple single purpose modules:
 
@@ -43,12 +42,11 @@ lockit(app, config);
 // ...
 ```
 
-Templates are built on [bootstrap](http://getbootstrap.com/). Download `bootstrap.min.css`,
-copy to `/public/css/` and load the file in `layout.jade`
- 
-```
-link(rel='stylesheet', href='/css/bootstrap.min.css')
-```
+Views are built with [bootstrap](http://getbootstrap.com/):
+
+ - download `bootstrap.min.css`
+ - copy to `/public/css/`
+ - load the file in `layout.jade` -> `link(rel='stylesheet', href='/css/bootstrap.min.css')`
 
 ## Configuration
 
@@ -66,9 +64,24 @@ exports.dbUrl = 'http://127.0.0.1:5984/test';
 // exports.dbCollection = 'users';
 ```
 
-The only thing you need is a database. By default the email service is stubbed and no 
-emails are sent. That means that you won't receive any signup and password reset tokens. 
-You have to look them up in your database and call the routes manually.
+The only thing you need is a database. 
+If you are using CouchDB you have to create the necessary views. 
+
+ - run `node config=PATH node_modules/lockit/createCouchViews.js`
+ 
+`PATH` should be the location of your `config.js`, i.e.
+
+`node config=./config.js node_modules/lockit/createCouchViews.js`
+ 
+In case you are using MongoDB or any other DB you are good to go.
+
+By default the email service is stubbed and no emails are sent. 
+That means that you won't receive any signup and password reset tokens. 
+You have to look them up in your database and call the routes manually (e.g. /signup/:token).
+To send emails you need an email server and you have to change the settings in your `config.js`:
+
+ - `emailType` - usually `SMTP`
+ - `emailSettings` - see [nodemailer](https://github.com/andris9/Nodemailer) for more information
 
 If you want to go crazy and customize all the things you can:
 
