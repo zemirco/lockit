@@ -47,9 +47,9 @@ It consists of multiple single purpose modules:
     - download `bootstrap.min.css`
     - copy to `/public/css/`
     - load the file in `layout.jade` -> `link(rel='stylesheet', href='/css/bootstrap.min.css')`
- 
-  3. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
 
+  3. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
+  
     - [CouchDB](http://couchdb.apache.org/) `npm install lockit-couchdb-adapter`
     - [MongoDB](http://www.mongodb.org/) `npm install lockit-mongodb-adapter`
 
