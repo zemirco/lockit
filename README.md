@@ -20,7 +20,7 @@ It consists of multiple single purpose modules:
 
 ## Installation
 
-I. `npm install lockit`
+**I** `npm install lockit`
 
   ```js
   var config = require('./config.js');
@@ -42,13 +42,13 @@ I. `npm install lockit`
   // ...
   ```
 
-II. Views are built with [bootstrap](http://getbootstrap.com/):
+**II** Views are built with [bootstrap](http://getbootstrap.com/):
 
   - download `bootstrap.min.css`
   - copy to `/public/css/`
   - load the file in `layout.jade` -> `link(rel='stylesheet', href='/css/bootstrap.min.css')`
 
-III. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
+**III** Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
 
   - [CouchDB](http://couchdb.apache.org/) `npm install lockit-couchdb-adapter`
   - [MongoDB](http://www.mongodb.org/) `npm install lockit-mongodb-adapter`
