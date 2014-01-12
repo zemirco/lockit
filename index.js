@@ -1,5 +1,4 @@
 
-var debug = require('debug')('lockit');
 var extend = require('xtend');
 var path = require('path');
 
@@ -10,61 +9,7 @@ var deleteAccount = require('lockit-delete-account');
 
 var configDefault = require('./config.default.js');
 
-// create couchdb views
-function createCouchDBViews(config) {
-
-  // create db connection
-  var db = require('nano')({
-    url: config.dbUrl,
-    request_defaults: config.request_defaults
-  });
-
-  // list of couchdb views
-  var views = {
-    _id: '_design/users',
-    views: {
-      username: {
-        map: function(doc) {
-          emit(doc.username, doc);
-        }
-      },
-      email: {
-        map: function(doc) {
-          emit(doc.email, doc);
-        }
-      },
-      signupToken: {
-        map: function(doc) {
-          emit(doc.signupToken, doc);
-        }
-      },
-      pwdResetToken: {
-        map: function(doc) {
-          emit(doc.pwdResetToken, doc);
-        }
-      }
-    }
-  };
-
-  // check if views were already created
-  db.get('_design/users', function(err, body) {
-    if (err && err.status_code === 404) {
-      debug('No CouchDB views found. Creating them ...');
-      // save views to db if they don't exist
-      db.insert(views, function(err, body) {
-        if (err) console.log(err);
-        debug('CouchDB views created');
-      });
-    } else if (err) {
-      console.log(err);
-    } else {
-      debug('Found CouchDB views in database');
-    }
-  });
-
-}
-
-// just a wrapper around the single modules
+// just some sugar and a wrapper around the single modules
 module.exports = function(app, config) {
 
   // set basedir so views can properly extend layout.jade
@@ -76,11 +21,8 @@ module.exports = function(app, config) {
 
   // check for email settings
   if (!config.emailType || !config.emailSettings) {
-    debug('Email configuration incomplete. Using "stub". Check your database for tokens.');
+    console.log('Email configuration incomplete -> using "stub".\nCheck your database for tokens.');
   }
-  
-  // create views if we are working with CouchDB
-  if (config.db === 'couchdb') createCouchDBViews(config);
   
   // use default values for all values that aren't provided
   config = extend(configDefault, config);
