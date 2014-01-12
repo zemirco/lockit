@@ -67,9 +67,9 @@ exports.dbUrl = 'http://127.0.0.1:5984/test';
 The only thing you need is a database. 
 If you are using CouchDB you have to create the necessary views. 
 
- - run `node config=PATH node_modules/lockit/createCouchViews.js`
+ - run `node config=[PATH] node_modules/lockit/createCouchViews.js`
  
-`PATH` should be the location of your `config.js`, i.e.
+`[PATH]` should be the location of your `config.js`, i.e.
 
 `node config=./config.js node_modules/lockit/createCouchViews.js`
  
@@ -77,7 +77,7 @@ In case you are using MongoDB or any other DB you are good to go.
 
 By default the email service is stubbed and no emails are sent. 
 That means that you won't receive any signup and password reset tokens. 
-You have to look them up in your database and call the routes manually (e.g. /signup/:token).
+You have to look them up in your database and call the routes manually (e.g. `/signup/:token`).
 To send emails you need an email server and you have to change the settings in your `config.js`:
 
  - `emailType` - usually `SMTP`
