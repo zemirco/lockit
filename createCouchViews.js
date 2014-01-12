@@ -1,7 +1,7 @@
 
 // load config to get db settings
 var configLocation = process.env.config;
-var config = require(configLocation);
+var config = require('../../' + configLocation);
 
 // create db connection
 var db = require('nano')(config.dbUrl);
