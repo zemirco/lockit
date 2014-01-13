@@ -92,7 +92,7 @@ If you want to go crazy and customize all the things you can:
 
 ```js
 // name for subject and email content
-exports.appname = 'Test App';
+exports.appname = 'lockit - Test App';
 
 // url for proper link generation
 exports.url = 'http://localhost:3000';
@@ -121,6 +121,9 @@ exports.logoutRoute = '/logout';
 // forgot password settings
 exports.forgotPasswordRoute = '/forgot-password';
 exports.forgotPasswordTokenExpiration = '1 day';
+
+// delete account settings
+exports.deleteAccountRoute = '/delete-account';
 
 // lock account
 // show warning after three failed login attempts
