@@ -33,11 +33,12 @@ It consists of multiple single purpose modules:
   // sessions are required
   app.use(express.cookieParser('your secret here'));
   app.use(express.cookieSession());
-  app.use(app.router);
   
-  // use middleware after router so it doesn't interfere with your own routes
+  // use middleware before router so your own routes have access to
+  // req.session.email and req.session.username
   lockit(app, config);
   
+  app.use(app.router);
   // continue with express middleware
   // ...
   ```

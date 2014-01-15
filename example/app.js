@@ -32,7 +32,7 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.cookieSession());
 
-// has to be before route so personal routes have access to username and email
+// has to be before route so routes have access to username and email
 lockit(app, config);
 
 // now the router
