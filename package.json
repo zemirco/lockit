@@ -1,6 +1,6 @@
 {
   "name": "lockit",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Routes and methods for user registration for Express apps",
   "main": "index.js",
   "scripts": {
