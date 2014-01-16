@@ -73,11 +73,13 @@ exports.dbUrl = 'http://127.0.0.1:5984/test';
 The only thing you need is a database. 
 If you are using CouchDB you have to create the necessary views. 
 
- - run `config=[PATH] node node_modules/lockit/createCouchViews.js`
- 
-`[PATH]` should be the location of your `config.js`, i.e.
+`node node_modules/lockit/createCouchViews.js`
 
-`config=./config.js node node_modules/lockit/createCouchViews.js`
+By default lockit assumes that your settings are inside the `config.js` file in your `app/` folder.
+If you've placed the file somewhere else or changed the name you have to specify the path to your
+config via the `config` argument, i.e.
+ 
+`config=./settings/myConfig.js node node_modules/lockit/createCouchViews.js`
  
 In case you are using MongoDB or any other DB you are good to go.
 

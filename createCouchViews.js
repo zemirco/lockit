@@ -1,6 +1,6 @@
 
 // load config to get db settings
-var configLocation = process.env.config;
+var configLocation = process.env.config || 'config.js';
 var config = require('../../' + configLocation);
 
 // create db connection
