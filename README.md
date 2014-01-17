@@ -4,7 +4,7 @@
 
 [![NPM](https://nodei.co/npm/lockit.png)](https://nodei.co/npm/lockit/)
 
-Lockit is an Express module that offers routes and methods for user registration / authentication.
+Lockit is an authentication solution for [Express](http://expressjs.com/).
 
 It consists of multiple single purpose modules:
 
