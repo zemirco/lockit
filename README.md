@@ -15,6 +15,7 @@ It consists of multiple single purpose modules:
  - [lockit-sendmail](https://github.com/zeMirco/lockit-sendmail)
  - [lockit-couchdb-adapter](https://github.com/zeMirco/lockit-couchdb-adapter)
  - [lockit-mongodb-adapter](https://github.com/zeMirco/lockit-mongodb-adapter)
+ - [lockit-sql-adapter](https://github.com/zeMirco/lockit-sql-adapter)
  - [lockit-utilities](https://github.com/zeMirco/lockit-utilities)
  - [lockit-template-blank](https://github.com/zeMirco/lockit-template-blank)
 
