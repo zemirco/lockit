@@ -43,7 +43,7 @@ It consists of multiple single purpose modules:
   // ...
   ```
 
-**II**. Views are built with [bootstrap](http://getbootstrap.com/):
+**II**. Views are built with [bootstrap](http://getbootstrap.com/).
 
   - download `bootstrap.min.css`
   - copy to `/public/css/`
@@ -51,27 +51,65 @@ It consists of multiple single purpose modules:
 
 **III**. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
 
-  - [CouchDB](http://couchdb.apache.org/) `npm install lockit-couchdb-adapter`
-  - [MongoDB](http://www.mongodb.org/) `npm install lockit-mongodb-adapter`
+  - [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) `npm install lockit-couchdb-adapter`
+  - [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) `npm install lockit-mongodb-adapter`
+  - [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zeMirco/lockit-sql-adapter) `npm install lockit-sql-adapter`
+  
+If you use a SQL database you also have to install the connector.
+
+```
+npm install pg       # for postgres
+npm install mysql    # for mysql
+npm install sqlite3  # for sqlite
+npm install mariasql # for mariasql
+```
 
 ## Configuration
 
-You need a `config.js` file somewhere in your app. 
-Here is a minimalistic one to get started
+You need a `config.js` file somewhere in your app.
+
+### Database connection
+
+The only thing you need is a database. 
+Lockit currently supports the following ones:
+
+ - CouchDB
+ - MongoDB
+ - PostgreSQL
+ - MySQL
+ - MariaDB (not yet tested but should work)
+ - SQLite
+
+Add your database connection settings to your `config.js`.
  
 ```js
 // database settings for CouchDB
-exports.db = 'couchdb';
-exports.dbUrl = 'http://127.0.0.1:5984/test';
+exports.db = 'couchdb';                           // select lockit database adapter
+exports.dbUrl = 'http://127.0.0.1:5984/test';     // connection string
 
 // or if you want to use MongoDB
 // exports.db = 'mongodb';
 // exports.dbUrl = 'mongodb://127.0.0.1/test';
+// exports.dbCollection = 'users';                // collection name for MongoDB
+
+// PostgreSQL
+// exports.db = 'sql';
+// exports.dbUrl = 'postgres://127.0.0.1:5432/users';
+// exports.dbCollection = 'users';                // table name for SQL databases
+
+// MySQL
+// exports.db = 'sql';
+// exports.dbUrl = 'mysql://127.0.0.1:9821/users';
+// exports.dbCollection = 'users';
+
+// SQLite
+// exports.db = 'sql';
+// exports.dbUrl = 'sqlite://:memory:';
 // exports.dbCollection = 'users';
 ```
 
-The only thing you need is a database. 
-If you are using CouchDB you have to create the necessary views. 
+If you aren't using CouchDB you can now start your app with `node app.js`.
+In case you are using CouchDB you have to create the necessary views first. 
 
 `node node_modules/lockit/createCouchViews.js`
 
@@ -81,7 +119,7 @@ config via the `config` argument, i.e.
  
 `config=./settings/myConfig.js node node_modules/lockit/createCouchViews.js`
  
-In case you are using MongoDB or any other DB you are good to go.
+### Send emails
 
 By default the email service is stubbed and no emails are sent. 
 That means that you won't receive any signup and password reset tokens. 
@@ -90,6 +128,21 @@ To send emails you need an email server and you have to change the settings in y
 
  - `emailType` - usually `SMTP`
  - `emailSettings` - see [nodemailer](https://github.com/andris9/Nodemailer) for more information
+ 
+With [mailgun](http://www.mailgun.com/pricing) you can send up to 10,000 emails per month for free.
+
+```js
+exports.emailType = 'SMTP';
+exports.emailSettings = {
+  service: 'Mailgun',
+  auth: {
+    user: 'postmaster@username.mailgun.org',
+    pass: 'secret-password'
+  }
+};
+```
+ 
+### Example config
 
 If you want to go crazy and customize all the things you can:
 
@@ -192,7 +245,7 @@ exports.emailForgotPassword = {
 ## Features
 
  - responsive html email template: [lockit-template-blank](https://github.com/zeMirco/lockit-template-blank)
- - CouchDB and MongoDB support out of the box
+ - support for wide range of databases out of the box
  - email address verification
  - account locking after too many failed login attempts
  - verification link expiration
@@ -237,7 +290,7 @@ From [lockit-delete-account](https://github.com/zeMirco/lockit-delete-account)
 
 ## License
 
-Copyright (C) 2013 [Mirco Zeiss](mailto: mirco.zeiss@gmail.com)
+Copyright (C) 2014 [Mirco Zeiss](mailto: mirco.zeiss@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
