@@ -42,6 +42,7 @@
     "supertest": "~0.8.2",
     "grunt-mocha-test": "~0.8.1",
     "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.8.0"
+    "grunt-contrib-jshint": "~0.8.0",
+    "lockit-couchdb-adapter": "0.1.0"
   }
 }
