@@ -18,19 +18,49 @@ exports.failedLoginAttempts = 5;
 exports.accountLockedTime = '20 minutes';
 
 // signup settings
-exports.signupRoute = '/signup';
-exports.signupTokenExpiration = '1 day';
+exports.signup = {
+  route: '/signup',
+  tokenExpiration: '1 day',
+  views: {
+    signup: '',         // input fields 'username', 'email' and 'password' | local variable 'error' | POST /'signup.route'
+    linkExpired: '',    // message link has expired | input field 'email' | POST /'signup.route'/resend-verification
+    verified: '',       // message email is now verified and maybe link to /'login.route'
+    signedUp: '',       // message email has been sent => check your inbox
+    resend: ''          // input field 'email' | local variable 'error' | POST /'signup.route'/resend-verification
+  }
+};
 
 // login settings
-exports.loginRoute = '/login';
-exports.logoutRoute = '/logout';
+exports.login = {
+  route: '/login',
+  logoutRoute: '/logout',
+  views: {
+    login: '',          // input fields 'login' and 'password' | POST /'login.route' | local variable 'error'
+    loggedOut: ''       // message that user logged out
+  }
+};
 
 // forgot password settings
-exports.forgotPasswordRoute = '/forgot-password';
-exports.forgotPasswordTokenExpiration = '1 day';
+exports.forgotPassword = {
+  route: '/forgot-password',
+  tokenExpiration: '1 day',
+  views: {
+    forgotPassword: '', // input field 'email' | POST /'forgotPassword.route' | local variable 'error'
+    newPassword: '',    // input field 'password' | POST /'forgotPassword.route'/#{token} | local variable 'error'
+    changedPassword: '',// message that password has been changed successfully
+    linkExpired: '',    // message that link has expired and maybe link to /'forgotPassword.route'
+    sentEmail: ''       // message that email with token has been sent
+  }
+};
 
 // delete account settings
-exports.deleteAccountRoute = '/delete-account';
+exports.deleteAccount = {
+  route: '/delete-account',
+  views: {
+    remove: '',         // input fields 'username', 'phrase', 'password' | POST /'deleteAccount.route' | local variable 'error'
+    removed: ''         // message that account has been deleted
+  }
+};
 
 // simple white email template
 exports.emailTemplate = 'lockit-template-blank';
@@ -41,7 +71,6 @@ exports.emailFrom = 'welcome@lock.it';
 // email signup template
 exports.emailSignup = {
   subject: 'Welcome to <%- appname %>',
-  title: 'Welcome to <%- appname %>',
   text: [
     '<h2>Hello <%- username %></h2>',
     'Welcome to <%- appname %>.',
@@ -53,7 +82,6 @@ exports.emailSignup = {
 // signup process -> email already taken
 exports.emailSignupTaken = {
   subject: 'Email already registered',
-  title: 'Email already registered',
   text: [
     '<h2>Hello <%- username %></h2>',
     'you or someone else tried to sign up for <%- appname %>.',
@@ -66,7 +94,6 @@ exports.emailSignupTaken = {
 // signup process -> resend email with verification link
 exports.emailResendVerification = {
   subject: 'Complete your registration',
-  title: 'Complete your registration',
   text: [
     '<h2>Hello <%- username %></h2>',
     'here is the link again. <%- link %> to complete your registration.',
@@ -78,7 +105,6 @@ exports.emailResendVerification = {
 // forgot password
 exports.emailForgotPassword = {
   subject: 'Reset your password',
-  title: 'Reset your password',
   text: [
     '<h2>Hey <%- username %></h2>',
     '<%- link %> to reset your password.',

@@ -85,40 +85,35 @@ Add your database connection settings to your `config.js`.
  
 ```js
 // database settings for CouchDB
-exports.db = 'couchdb';                           // select lockit database adapter
-exports.dbUrl = 'http://127.0.0.1:5984/test';     // connection string
+exports.db = 'http://127.0.0.1:5984/test'         // connection string for database
 
 // or if you want to use MongoDB
-// exports.db = 'mongodb';
-// exports.dbUrl = 'mongodb://127.0.0.1/test';
+// exports.db = 'mongodb://127.0.0.1/test';
 // exports.dbCollection = 'users';                // collection name for MongoDB
 
 // PostgreSQL
-// exports.db = 'sql';
-// exports.dbUrl = 'postgres://127.0.0.1:5432/users';
+// exports.db = 'postgres://127.0.0.1:5432/users';
 // exports.dbCollection = 'users';                // table name for SQL databases
 
 // MySQL
-// exports.db = 'sql';
-// exports.dbUrl = 'mysql://127.0.0.1:9821/users';
+// exports.db = 'mysql://127.0.0.1:9821/users';
 // exports.dbCollection = 'users';
 
 // SQLite
-// exports.db = 'sql';
-// exports.dbUrl = 'sqlite://:memory:';
+// exports.db = 'sqlite://:memory:';
 // exports.dbCollection = 'users';
 ```
 
 If you aren't using CouchDB you can now start your app with `node app.js`.
 In case you are using CouchDB you have to create the necessary views first. 
 
-`node node_modules/lockit/createCouchViews.js`
+`node node_modules/lockit/helpers/createCouchViews.js`
 
 By default lockit assumes that your settings are inside the `config.js` file in your `app/` folder.
 If you've placed the file somewhere else or changed the name you have to specify the path to your
 config via the `config` argument, i.e.
  
-`config=./settings/myConfig.js node node_modules/lockit/createCouchViews.js`
+`config=./settings/myConfig.js node node_modules/lockit/helpers/createCouchViews.js`
  
 ### Send emails
 
@@ -142,6 +137,10 @@ exports.emailSettings = {
   }
 };
 ```
+
+### Custom views
+
+
  
 ### Example config
 
@@ -168,19 +167,49 @@ exports.emailSettings = {
 exports.emailTemplate = 'lockit-template-blank';
 
 // signup settings
-exports.signupRoute = '/signup';
-exports.signupTokenExpiration = '1 day';
+exports.signup = {
+  route: '/signup',
+  tokenExpiration: '1 day',
+  views: {
+    signup: '',         // input fields 'username', 'email' and 'password' | local variable 'error' | POST /'signup.route'
+    linkExpired: '',    // message link has expired | input field 'email' | POST /'signup.route'/resend-verification
+    verified: '',       // message email is now verified and maybe link to /'login.route'
+    signedUp: '',       // message email has been sent => check your inbox
+    resend: ''          // input field 'email' | local variable 'error' | POST /'signup.route'/resend-verification
+  }
+};
 
 // login settings
-exports.loginRoute = '/login';
-exports.logoutRoute = '/logout';
+exports.login = {
+  route: '/login',
+  logoutRoute: '/logout',
+  views: {
+    login: '',          // input fields 'login' and 'password' | POST /'login.route' | local variable 'error'
+    loggedOut: ''       // message that user logged out
+  }
+};
 
 // forgot password settings
-exports.forgotPasswordRoute = '/forgot-password';
-exports.forgotPasswordTokenExpiration = '1 day';
+exports.forgotPassword = {
+  route: '/forgot-password',
+  tokenExpiration: '1 day',
+  views: {
+    forgotPassword: '', // input field 'email' | POST /'forgotPassword.route' | local variable 'error'
+    newPassword: '',    // input field 'password' | POST /'forgotPassword.route'/#{token} | local variable 'error'
+    changedPassword: '',// message that password has been changed successfully
+    linkExpired: '',    // message that link has expired and maybe link to /'forgotPassword.route'
+    sentEmail: ''       // message that email with token has been sent
+  }
+};
 
 // delete account settings
-exports.deleteAccountRoute = '/delete-account';
+exports.deleteAccount = {
+  route: '/delete-account',
+  views: {
+    remove: '',         // input fields 'username', 'phrase', 'password' | POST /'deleteAccount.route' | local variable 'error'
+    removed: ''         // message that account has been deleted
+  }
+};
 
 // lock account
 // show warning after three failed login attempts
@@ -196,7 +225,6 @@ exports.emailFrom = 'welcome@lock.it';
 // email signup template
 exports.emailSignup = {
   subject: 'Welcome to <%- appname %>',
-  title: 'Welcome to <%- appname %>',
   text: [
     '<h2>Hello <%- username %></h2>',
     'Welcome to <%- appname %>.',
@@ -208,7 +236,6 @@ exports.emailSignup = {
 // email already taken template
 exports.emailSignupTaken = {
   subject: 'Email already registered',
-  title: 'Email already registered',
   text: [
     '<h2>Hello <%- username %></h2>',
     'you or someone else tried to sign up for <%- appname %>.',
@@ -221,7 +248,6 @@ exports.emailSignupTaken = {
 // resend signup template
 exports.emailResendVerification = {
   subject: 'Complete your registration',
-  title: 'Complete your registration',
   text: [
     '<h2>Hello <%- username %></h2>',
     'here is the link again. <%- link %> to complete your registration.',
@@ -233,7 +259,6 @@ exports.emailResendVerification = {
 // forgot password template
 exports.emailForgotPassword = {
   subject: 'Reset your password',
-  title: 'Reset your password',
   text: [
     '<h2>Hey <%- username %></h2>',
     '<%- link %> to reset your password.',

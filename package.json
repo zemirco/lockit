@@ -26,14 +26,14 @@
     "url": "https://github.com/zeMirco/lockit"
   },
   "dependencies": {
-    "xtend": "~2.1.1",
     "debug": "~0.7.4",
     "nano": "~4.2.1",
-    "lockit-signup": "0.0.5",
-    "lockit-login": "0.0.4",
-    "lockit-forgot-password": "0.0.7",
-    "lockit-delete-account": "0.0.6",
-    "lockit-utils": "0.0.2"
+    "lockit-signup": "0.2.0",
+    "lockit-login": "0.1.0",
+    "lockit-forgot-password": "0.1.0",
+    "lockit-delete-account": "0.1.0",
+    "lockit-utils": "0.1.0",
+    "node.extend": "~1.0.9"
   },
   "devDependencies": {
     "express": "3.3.5",

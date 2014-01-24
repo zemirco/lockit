@@ -1,7 +1,6 @@
 
-var extend = require('xtend');
 var path = require('path');
-
+var extend = require('node.extend');
 var signup = require('lockit-signup');
 var login = require('lockit-login');
 var forgotPassword = require('lockit-forgot-password');
@@ -14,10 +13,10 @@ module.exports = function(app, config) {
 
   // set basedir so views can properly extend layout.jade
   var __parentDir = path.dirname(module.parent.filename);
-  app.locals.basedir = __parentDir + '/views';
+  app.locals.basedir = path.join(__parentDir, '/views');
   
   // check for database settings - only ones that are really required
-  if (!config.db || !config.dbUrl) throw new Error('Please specify database settings');
+  if (!config.db) throw new Error('Please specify database settings');
 
   // check for email settings
   if (!config.emailType || !config.emailSettings) {
@@ -25,7 +24,8 @@ module.exports = function(app, config) {
   }
   
   // use default values for all values that aren't provided
-  config = extend(configDefault, config);
+  // true for deep extend
+  config = extend(true, configDefault, config);
 
   // expose username and email to template engine
   app.use(function(req, res, next) {
