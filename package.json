@@ -28,9 +28,9 @@
   "dependencies": {
     "debug": "~0.7.4",
     "nano": "~4.2.1",
-    "lockit-signup": "0.2.0",
+    "lockit-signup": "0.3.0",
     "lockit-login": "0.1.0",
-    "lockit-forgot-password": "0.1.0",
+    "lockit-forgot-password": "0.2.0",
     "lockit-delete-account": "0.1.0",
     "lockit-utils": "0.1.0",
     "node.extend": "~1.0.9"
