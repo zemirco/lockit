@@ -140,7 +140,50 @@ exports.emailSettings = {
 
 ### Custom views
 
+Lockit comes with built-in views which are based on Bootstrap.
+If you want to use your own custom views you can. It is dead simple.
 
+Put them into your `views` folder, for example `views/lockit/myLogin.jade`.
+Then edit your `config.js` and set the path to your custom view.
+
+```js
+exports.login = {
+  route: '/login',
+  logoutRoute: '/logout',
+  views: {
+    login: 'lockit/myLogin.jade',
+    loggedOut: 'lockit/myLogoutSuccess.jade'
+  }
+};
+```
+
+The only thing you have to keep in mind is the structure. The `login.views.login` view, for example,
+needs a form element with two input fields. The `method` has to be `POST` and `action` should point
+to your `login.route`. The input fields have to have the names `login` and `password`. If something
+went wrong during the login process you'll get an `error` variable that you can use in your template.
+
+Here is a minimalistic example for an alternative `myLogin.jade`.
+
+```
+extend /layout
+
+block content
+  h1 Login
+  form(action="/login", method="POST")
+    div
+      label(for="login") Email or Username
+      input(type="text", id="login", name="login", placeholder="Your email or username")
+    div
+      label(for="password") Password
+      input(type="password", id="password", name="password", placeholder="Your password")
+    if error
+      p #{error}
+    input(type="submit", value="Login")
+```
+
+For more information about each view see the `views` folder inside the different repositories.
+Make sure your view extends `/layout` which is different to your normal views. They extend `layout`
+without the slash. This is required to find the view.
  
 ### Example config
 
