@@ -44,7 +44,7 @@ It consists of multiple single purpose modules:
   // ...
   ```
 
-**II**. Views are built with [bootstrap](http://getbootstrap.com/).
+**II**. Views are built with [bootstrap](http://getbootstrap.com/). You can use [your own](#custom-views)!
 
   - download `bootstrap.min.css`
   - copy to `/public/css/`
@@ -103,17 +103,6 @@ exports.db = 'http://127.0.0.1:5984/test';        // connection string for datab
 // exports.db = 'sqlite://:memory:';
 // exports.dbCollection = 'users';
 ```
-
-If you aren't using CouchDB you can now start your app with `node app.js`.
-In case you are using CouchDB you have to create the necessary views first. 
-
-`node node_modules/lockit/helpers/createCouchViews.js`
-
-By default lockit assumes that your settings are inside the `config.js` file in your `app/` folder.
-If you've placed the file somewhere else or changed the name you have to specify the path to your
-config via the `config` argument, i.e.
- 
-`config=./settings/myConfig.js node node_modules/lockit/helpers/createCouchViews.js`
  
 ### Send emails
 
