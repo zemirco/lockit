@@ -1,0 +1,14 @@
+
+h1 Login
+
+form(ng-submit="submit()")
+  div
+    label(for="login") Email or username
+    input(type="text", id="login", name="login", ng-model="login")
+  div
+    label(for="password") Password
+    input(type="password", id="password", name="password", ng-model="password")
+  div(ng-show="error")
+    p {{error}}
+  div
+    input(type="submit", value="Submit")

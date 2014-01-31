@@ -1,0 +1,11 @@
+
+div(ng-show="username")
+  p Welcome {{username}}
+  a(href="/logout") Logout
+
+div(ng-hide="username")
+  p You are not logged in.
+  p
+    a(href="/login") Login
+  p
+    a(href="/signup") Sign up
