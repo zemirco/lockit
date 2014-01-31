@@ -36,7 +36,7 @@ module.exports = function(app, config) {
       config.login.logoutRoute,
       config.forgotPassword.route,
       config.deleteAccount.route,
-    ].map(function(route) { return '^\\' + route });
+    ].map(function(route) { return '^\\' + route; });
 
     var re = new RegExp(routes.join('|'));
 
