@@ -26,6 +26,25 @@ module.exports = function(app, config) {
   // use default values for all values that aren't provided
   // true for deep extend
   config = extend(true, configDefault, config);
+  
+  // send all GET requests for lockit routes to '/'
+  if (config.rest) {
+    
+    var routes = [
+      config.signup.route,
+      config.login.route,
+      config.login.logoutRoute,
+      config.forgotPassword.route,
+      config.deleteAccount.route,
+    ].map(function(route) { return '^\\' + route });
+
+    var re = new RegExp(routes.join('|'));
+
+    // point all lockit routes to index
+    app.get(re, function(req, res) {
+      res.render('index');
+    });
+  }
 
   // expose username and email to template engine
   app.use(function(req, res, next) {
