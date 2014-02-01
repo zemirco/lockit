@@ -27,7 +27,7 @@ module.exports = function(app, config) {
   // true for deep extend
   config = extend(true, configDefault, config);
   
-  // send all GET requests for lockit routes to '/'
+  // send all GET requests for lockit routes to '/index.html'
   if (config.rest) {
     
     var routes = [
@@ -40,9 +40,9 @@ module.exports = function(app, config) {
 
     var re = new RegExp(routes.join('|'));
 
-    // point all lockit routes to index
+    // point all lockit routes to index.html so client can take over
     app.get(re, function(req, res) {
-      res.render('index');
+      res.sendfile(path.join(__parentDir, 'public', 'index.html'));
     });
   }
 
