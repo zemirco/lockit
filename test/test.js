@@ -30,7 +30,7 @@ describe('lockit', function() {
         request(app)
           .get(route)
           .end(function(err, res) {
-            res.text.should.include('Welcome');
+            res.text.should.include('This is index.html');
             done();
           });
       });
