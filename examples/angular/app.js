@@ -4,9 +4,8 @@
  */
 
 var express = require('express'),
-  routes = require('./routes'),
-  http = require('http'),
-  path = require('path');
+    http = require('http'),
+    path = require('path');
 
 var app = express();
 
@@ -40,12 +39,8 @@ if (app.get('env') === 'development') {
 }
 
 /**
- * Routes
+ * JSON API
  */
-
-// serve index and view partials
-app.get('/', routes.index);
-app.get('/partials/:name', routes.partials);
 
 app.get('/rest/whoami', utls.restrict(config), function(req, res) {
   res.json({

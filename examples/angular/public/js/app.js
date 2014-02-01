@@ -4,28 +4,25 @@
 
 angular.module('myApp', [
   'ngRoute',
-  'myApp.controllers'
+  'ngCookies',
+  'myApp.controllers',
+  'myApp.services'
 ]).
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
     when('/', {
-      templateUrl: 'partials/index',
-      controller: 'IndexCtrl'
+      templateUrl: 'views/index.html'
     }).
     when('/login', {
-      templateUrl: 'partials/login',
+      templateUrl: 'views/login.html',
       controller: 'LoginCtrl'
     }).
-    when('/logout', {
-      templateUrl: 'partials/logout',
-      controller: 'LogoutCtrl'
-    }).
     when('/signup', {
-      templateUrl: 'partials/signup',
+      templateUrl: 'views/signup.html',
       controller: 'SignupCtrl'
     }).
     when('/signup/:token', {
-      templateUrl: 'partials/signupToken',
+      templateUrl: 'views/signupToken.html',
       controller: 'SignupTokenCtrl'
     }).
     otherwise({

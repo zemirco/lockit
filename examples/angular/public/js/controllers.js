@@ -3,60 +3,36 @@
 var app = angular.module('myApp.controllers', []);
 
 /**
- * Index controller
+ * Main / Root controller
  */
-app.controller('IndexCtrl', function ($scope, $http) {
+app.controller('MainCtrl', function ($scope, user) {
   
-  $scope.username = null;
+  $scope.user = user.get();
   
-  $http.get('/rest/whoami')
-    .success(function(data, status) {
-      $scope.username = data.username;
-    })
-    .error(function(data, status) {
-      // do something
-    })
-  
-});
-
-/**
- * Index controller
- */
-app.controller('LogoutCtrl', function ($scope, $http, $window) {
-  
-  $scope.error = '';
-
   $scope.logout = function() {
-    $http.get('/rest/logout')
-      .success(function(data, status) {
-        $window.location = '/'
-      })
-      .error(function(data, status) {
-        $scope.error = 'you are not logged in';
-      })
-  }
+    user.logout().then(function() {
+      $scope.user = null;
+    }, function(error) {
+      console.log(error);
+    })
+  };
 
 });
 
 /**
  * Login controller 
  */
-app.controller('LoginCtrl', function ($scope, $http, $window) {
-  
-  // show login error
-  $scope.error = null;
+app.controller('LoginCtrl', function ($scope, $window, user) {
       
   // submit form
   $scope.submit = function() {
-    
-    $http.post('/rest/login', {
-      login: $scope.login,
-      password: $scope.password
-    }).success(function(data, status) {
-      $window.location = '/';
-    }).error(function(data, status) {
-      $scope.error = data.error;
-    })
+
+    user.login($scope.login, $scope.password)
+      .then(function() {
+          $window.location = '/';
+        }, function(error) {
+          $scope.error = error;
+        })
     
   };
     
@@ -65,23 +41,19 @@ app.controller('LoginCtrl', function ($scope, $http, $window) {
 /**
  * Signup controller
  */
-app.controller('SignupCtrl', function ($scope, $http) {
-
-  // show error or success message
-  $scope.message = null;
+app.controller('SignupCtrl', function ($scope, user) {
 
   // submit form
   $scope.submit = function() {
 
-    $http.post('/rest/signup', {
-      username: $scope.username,
-      email: $scope.email,
-      password: $scope.password
-    }).success(function(data, status) {
-      $scope.message = 'Great! Check your inbox.'
-    }).error(function(data, status) {
-      $scope.message = data.error;
-    })
+    user.signup($scope.username, $scope.email, $scope.password)
+      .success(function(data, status) {
+        $scope.error = false;
+        $scope.success = 'Great! Check your inbox.'
+      }).error(function(data, status) {
+        $scope.success = false;
+        $scope.error = data.error;
+      });
 
   };
 
@@ -94,18 +66,13 @@ app.controller('SignupTokenCtrl', function ($scope, $routeParams, $http) {
 
   var token = $routeParams.token;
   
-  $scope.success = null;
-  
   $http.get('/rest/signup/' + token)
     .success(function(data, status) {
-      console.log(data);
       $scope.success = true;
     })
     .error(function(data, status) {
-      console.log('error');
-      console.log(data);
-      console.log(status)
-    })
+      $scope.error = true
+    });
   
 
 });
