@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/zeMirco/lockit.png?branch=master)](https://travis-ci.org/zeMirco/lockit) [![NPM version](https://badge.fury.io/js/lockit.png)](http://badge.fury.io/js/lockit)
 
-[![NPM](https://nodei.co/npm/lockit.png)](https://nodei.co/npm/lockit/)
-
 Lockit is an authentication solution for [Express](http://expressjs.com/).
 
 It consists of multiple single purpose modules:
