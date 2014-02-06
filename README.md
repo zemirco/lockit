@@ -196,6 +196,9 @@ exports.emailSettings = {
 // email template from npm
 exports.emailTemplate = 'lockit-template-blank';
 
+// render views or json for single page apps
+exports.rest = false;
+
 // signup settings
 exports.signup = {
   route: '/signup',
