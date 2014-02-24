@@ -59,6 +59,8 @@ It consists of multiple single purpose modules:
 
 **III**. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
 
+| DB | Command |
+| --- | --- |
 | [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) | `npm install lockit-couchdb-adapter` |
 | [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) | `npm install lockit-mongodb-adapter` |
 | [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zeMirco/lockit-sql-adapter) | `npm install lockit-sql-adapter` |
@@ -160,7 +162,7 @@ went wrong during the login process you'll get an `error` variable that you can 
 
 Here is a minimalistic example for an alternative `myLogin.jade`.
 
-```
+```jade
 extend /layout
 
 block content
@@ -197,13 +199,12 @@ like getting the gravatar before sending a response to the client.
 
 A new user signed up. The callback function has two arguments.
 
-`user` is an object and contains information about the new user, like `user.username` or `user.email`.
-
-`res` is the standard Express.js `res` object with methods like `res.render` and `res.send`.
+- `user` is an object and contains information about the new user, like `user.username` or `user.email`.
+- `res` is the standard Express.js `res` object with methods like `res.render` and `res.send`.
 If you've set `signup.handleResponse` to `false` Lockit will not handle the response for you.
 You therefore have to send the response back to the client manually or otherwise it will wait forever.
  
-```
+```js
 lockit.on('signup', function(user, res) {
   // ...
 });
@@ -213,13 +214,11 @@ lockit.on('signup', function(user, res) {
 
 A user logged in. Callback function this time has three arguments.
 
-`user` is again the JSON object containing info about that particular user.
+- `user` is again the JSON object containing info about that particular user.
+- `res` is the normal Express.js response object with all properties and methods.
+- `target` is the redirect target route after a successful login, i.e. `/settings`
 
-`res` is the normal Express.js response object with all properties and methods.
-
-`target` is the redirect target route after a successful login, i.e. `/settings`
-
-```
+```js
 lockit.on('login', function(user, res, target) {
   // ...
 });
@@ -239,7 +238,7 @@ lockit.on('logout', function(user, res) {
 
 A user deleted an account. Same callback as above.
 
-```
+```js
 lockit.on('delete', function(user, res) {
   // ...
 });
