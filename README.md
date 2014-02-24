@@ -53,13 +53,13 @@ It consists of multiple single purpose modules:
 
   Use Bootstrap CDN and add the following line to your `layout.jade`
   
-  ```
+  ```jade
   link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
   ```
 
 **III**. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
 
-| DB | Command |
+| Database | Command |
 | --- | --- |
 | [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) | `npm install lockit-couchdb-adapter` |
 | [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) | `npm install lockit-mongodb-adapter` |
