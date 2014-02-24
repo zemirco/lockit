@@ -19,7 +19,9 @@ It consists of multiple single purpose modules:
 
 ## Installation
 
-**I**. `npm install lockit`
+1. Install and require
+
+  `npm install lockit`
 
   ```js
   var config = require('./config.js');
@@ -48,31 +50,35 @@ It consists of multiple single purpose modules:
   // continue with express middleware
   // ...
   ```
+  
+2. Add styles
 
-**II**. Views are built with [bootstrap](http://getbootstrap.com/). You can use [your own](#custom-views) though!
-
+  Views are built with [bootstrap](http://getbootstrap.com/). 
+  You can use [your own ones](#custom-views) though!
   Use Bootstrap CDN and add the following line to your `layout.jade`
   
   ```jade
   link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
   ```
 
-**III**. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
+3. Install database adapter 
 
-| Database | Command |
-| --- | --- |
-| [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) | `npm install lockit-couchdb-adapter` |
-| [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) | `npm install lockit-mongodb-adapter` |
-| [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zeMirco/lockit-sql-adapter) | `npm install lockit-sql-adapter` |
+  `npm install lockit-[DB]-adapter` where `[DB]` can be
 
-If you use a SQL database you also have to install the connector.
-
-```
-npm install pg       # for postgres
-npm install mysql    # for mysql
-npm install sqlite3  # for sqlite
-npm install mariasql # for mariasql
-```
+  | Database | Command |
+  | --- | --- |
+  | [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) | `npm install lockit-couchdb-adapter` |
+  | [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) | `npm install lockit-mongodb-adapter` |
+  | [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zeMirco/lockit-sql-adapter) | `npm install lockit-sql-adapter` |
+  
+  If you use a SQL database you also have to install the connector.
+  
+  ```
+  npm install pg       # for postgres
+  npm install mysql    # for mysql
+  npm install sqlite3  # for sqlite
+  npm install mariasql # for mariasql
+  ```
 
 ## Configuration
 
