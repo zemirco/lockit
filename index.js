@@ -1,15 +1,25 @@
 
+// require event emitter
+var events = require('events');
+var util = require('util');
+
 var path = require('path');
 var extend = require('node.extend');
-var signup = require('lockit-signup');
-var login = require('lockit-login');
+var Signup = require('lockit-signup');
+var Login = require('lockit-login');
 var forgotPassword = require('lockit-forgot-password');
-var deleteAccount = require('lockit-delete-account');
+var DeleteAccount = require('lockit-delete-account');
 
 var configDefault = require('./config.default.js');
 
-// just some sugar and a wrapper around the single modules
-module.exports = function(app, config) {
+// wrapper for independent modules
+var Lockit = module.exports = function(app, config) {
+
+  if (!(this instanceof Lockit)) {
+    return new Lockit(app, config);
+  }
+  
+  var that = this;
 
   // set basedir so views can properly extend layout.jade
   var __parentDir = path.dirname(module.parent.filename);
@@ -29,21 +39,21 @@ module.exports = function(app, config) {
   
   // send all GET requests for lockit routes to '/index.html'
   if (config.rest) {
-    
+
     var routes = [
       config.signup.route,
       config.login.route,
       config.login.logoutRoute,
       config.forgotPassword.route,
       config.deleteAccount.route,
-    ].map(function(route) { return '^\\' + route; });
-
-    var re = new RegExp(routes.join('|'));
-
-    // point all lockit routes to index.html so client can take over
-    app.get(re, function(req, res) {
-      res.sendfile(path.join(__parentDir, 'public', 'index.html'));
+    ];
+    
+    routes.forEach(function(route) {
+      app.get(route, function(req, res) {
+        res.sendfile(path.join(__parentDir, 'public', 'index.html'));
+      });
     });
+    
   }
 
   // expose username and email to template engine
@@ -55,9 +65,30 @@ module.exports = function(app, config) {
   });
   
   // load all required modules
-  signup(app, config);
-  login(app, config);
+  var signup = new Signup(app, config);
+  var login = new Login(app, config);
+  var deleteAccount = new DeleteAccount(app, config);
   forgotPassword(app, config);
-  deleteAccount(app, config);
+  
+  // pipe events to lockit
+  signup.on('signup', function(user, res) {
+    that.emit('signup', user, res);
+  });
+  
+  login.on('login', function(user, res, target) {
+    that.emit('login', user, res, target);
+  });
+
+  login.on('logout', function(user, res) {
+    that.emit('logout', user, res);
+  });
+  
+  deleteAccount.on('delete', function(user, res) {
+    that.emit('delete', user, res);
+  });
+
+  events.EventEmitter.call(this);
 
 };
+
+util.inherits(Lockit, events.EventEmitter);
