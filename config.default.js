@@ -17,6 +17,9 @@ exports.failedLoginsWarning = 3;
 exports.failedLoginAttempts = 5;
 exports.accountLockedTime = '20 minutes';
 
+// send html to client (false) or only json (true)
+exports.rest = false;
+
 // signup settings
 exports.signup = {
   route: '/signup',
@@ -27,7 +30,8 @@ exports.signup = {
     verified: '',       // message email is now verified and maybe link to /'login.route'
     signedUp: '',       // message email has been sent => check your inbox
     resend: ''          // input field 'email' | local variable 'error' | POST /'signup.route'/resend-verification
-  }
+  },
+  handleResponse: true  // let lockit handle the response after signup success
 };
 
 // login settings
@@ -37,7 +41,8 @@ exports.login = {
   views: {
     login: '',          // input fields 'login' and 'password' | POST /'login.route' | local variable 'error'
     loggedOut: ''       // message that user logged out
-  }
+  },
+  handleResponse: true  // let lockit handle the response after login/logout success
 };
 
 // forgot password settings
@@ -59,7 +64,8 @@ exports.deleteAccount = {
   views: {
     remove: '',         // input fields 'username', 'phrase', 'password' | POST /'deleteAccount.route' | local variable 'error'
     removed: ''         // message that account has been deleted
-  }
+  },
+  handleResponse: true  // let lockit handle the response after delete account success
 };
 
 // simple white email template
