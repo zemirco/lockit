@@ -23,7 +23,7 @@ It consists of multiple single purpose modules:
 
   ```js
   var config = require('./config.js');
-  var lockit = require('lockit');
+  var Lockit = require('lockit');
   
   var app = express();
   
@@ -35,25 +35,34 @@ It consists of multiple single purpose modules:
   
   // use middleware before router so your own routes have access to
   // req.session.email and req.session.username
-  lockit(app, config);
+  var lockit = new Lockit(app, config);
+  
+  // you now have all the routes like /login, /signup, etc.
+  // and you can listen on events. For example 'signup'
+  lockit.on('signup', function(user, res) {
+    console.log('a new user signed up');
+    res.send('Welcome!');   // set signup.handleResponse to 'false' for this to work
+  });
   
   app.use(app.router);
   // continue with express middleware
   // ...
   ```
 
-**II**. Views are built with [bootstrap](http://getbootstrap.com/). You can use [your own](#custom-views)!
+**II**. Views are built with [bootstrap](http://getbootstrap.com/). You can use [your own](#custom-views) though!
 
-  - download `bootstrap.min.css`
-  - copy to `/public/css/`
-  - load the file in `layout.jade` -> `link(rel='stylesheet', href='/css/bootstrap.min.css')`
+  Use Bootstrap CDN and add the following line to your `layout.jade`
+  
+  ```
+  link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
+  ```
 
 **III**. Install your database adapter `npm install lockit-[DB]-adapter` where `[DB]` can be
 
-  - [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) `npm install lockit-couchdb-adapter`
-  - [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) `npm install lockit-mongodb-adapter`
-  - [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zeMirco/lockit-sql-adapter) `npm install lockit-sql-adapter`
-  
+| [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) | `npm install lockit-couchdb-adapter` |
+| [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) | `npm install lockit-mongodb-adapter` |
+| [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zeMirco/lockit-sql-adapter) | `npm install lockit-sql-adapter` |
+
 If you use a SQL database you also have to install the connector.
 
 ```
@@ -171,6 +180,98 @@ block content
 For more information about each view see the `views` folder inside the different repositories.
 Make sure your view extends `/layout` which is different to your normal views. They extend `layout`
 without the slash. This is required to find the view.
+
+### Events
+
+Lockit emits the most important events for user authentication. Those are
+
+ - `signup`
+ - `login`
+ - `logout`
+ - `delete`
+ 
+You can use these events to intercept requests and implement some custom logic, 
+like getting the gravatar before sending a response to the client.
+ 
+#### `signup`
+
+A new user signed up. The callback function has two arguments.
+
+`user` is an object and contains information about the new user, like `user.username` or `user.email`.
+
+`res` is the standard Express.js `res` object with methods like `res.render` and `res.send`.
+If you've set `signup.handleResponse` to `false` Lockit will not handle the response for you.
+You therefore have to send the response back to the client manually or otherwise it will wait forever.
+ 
+```
+lockit.on('signup', function(user, res) {
+  // ...
+});
+```
+
+##### `login`
+
+A user logged in. Callback function this time has three arguments.
+
+`user` is again the JSON object containing info about that particular user.
+
+`res` is the normal Express.js response object with all properties and methods.
+
+`target` is the redirect target route after a successful login, i.e. `/settings`
+
+```
+lockit.on('login', function(user, res, target) {
+  // ...
+});
+```
+
+##### `logout`
+
+A user logged out. Same as above without the `target` string.
+
+```js
+lockit.on('logout', function(user, res) {
+  // ...
+});
+```
+
+##### `delete`
+
+A user deleted an account. Same callback as above.
+
+```
+lockit.on('delete', function(user, res) {
+  // ...
+});
+```
+
+### REST API
+
+In a single page application (SPA) all the routing and template rendering is done on the client.
+Before version 0.5.0 Lockit caught relevant routes, like `/login` or `/signup`,
+and did the entire rendering on the server.
+
+Starting with version 0.5.0 you're able to use Lockit as a REST API and communicate via JSON.
+All you have to do is set `exports.rest = true` in your `config.js`.
+
+With REST enabled all default routes get a `/rest` prefix so you can catch `/login`
+on the client. To allow for true page refreshes (i.e. user is at `/login` and refreshes the page)
+all routes on the server, like `/login` and `/signup`, send the `index.html` from the `public/`
+folder. From there your SPA has to take over.
+
+Here is a short example how the process works.
+
+1. User sends GET request for `/login`
+2. Server has a route handler for this request and sends `index.html` back
+3. Client router takes over and renders `/login` page
+4. User enters credentials and submits the form
+5. Client controller catches submit and sends POST via AJAX request to `/rest/login`
+6. Server handles POST request and validates user credentials
+7. Server sends status code `200` or some JSON with error message
+8. Client reacts to JSON from server and redirects on success or shows error
+
+I've built a [simple example](https://github.com/zeMirco/lockit/tree/master/examples/angular) 
+using AngularJS on the client side.
  
 ### Example config
 
@@ -209,7 +310,8 @@ exports.signup = {
     verified: '',       // message email is now verified and maybe link to /'login.route'
     signedUp: '',       // message email has been sent => check your inbox
     resend: ''          // input field 'email' | local variable 'error' | POST /'signup.route'/resend-verification
-  }
+  },
+  handleResponse: true  // let lockit handle the response after signup success
 };
 
 // login settings
@@ -219,7 +321,8 @@ exports.login = {
   views: {
     login: '',          // input fields 'login' and 'password' | POST /'login.route' | local variable 'error'
     loggedOut: ''       // message that user logged out
-  }
+  },
+  handleResponse: true  // let lockit handle the response after login/logout success
 };
 
 // forgot password settings
@@ -241,7 +344,8 @@ exports.deleteAccount = {
   views: {
     remove: '',         // input fields 'username', 'phrase', 'password' | POST /'deleteAccount.route' | local variable 'error'
     removed: ''         // message that account has been deleted
-  }
+  },
+  handleResponse: true  // let lockit handle the response after delete account success
 };
 
 // lock account
@@ -312,6 +416,8 @@ exports.emailForgotPassword = {
  - /login redirection when user is unauthorized
  - password hash generation with bcrypt
  - unit tests for all modules
+ - serves proper HTML views or only JSON
+ - events for most important happenings `login`, `logout`, `signup` and `delete`
  - implementation of [lots of](https://www.owasp.org/index.php/Guide_to_Authentication) [best](http://stackoverflow.com/questions/549/the-definitive-guide-to-form-based-website-authentication) [pratices](https://www.owasp.org/index.php/Authentication_Cheat_Sheet)
 
 
