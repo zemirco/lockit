@@ -82,21 +82,11 @@ It consists of multiple single purpose modules:
 
 ## Configuration
 
-You need a `config.js` file somewhere in your app.
+You need a `config.js` somewhere in your app.
 
 ### Database connection
 
-The only thing you need is a database. 
-Lockit currently supports the following ones:
-
- - CouchDB
- - MongoDB
- - PostgreSQL
- - MySQL
- - MariaDB (not yet tested but should work)
- - SQLite
-
-Add your database connection settings to your `config.js`.
+Add the database connection string to your `config.js`.
  
 ```js
 // database settings for CouchDB
