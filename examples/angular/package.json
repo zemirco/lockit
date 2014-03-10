@@ -5,8 +5,8 @@
   "dependencies": {
     "express": "~3.2.6",
     "jade": "~0.31.2",
-    "lockit-couchdb-adapter": "~0.2.1",
     "lockit-utils": "~0.1.1",
-    "lockit": "~0.4.3"
+    "lockit-couchdb-adapter": "~0.2.2",
+    "lockit": "~0.6.2"
   }
 }
