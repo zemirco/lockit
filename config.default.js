@@ -1,4 +1,3 @@
-
 exports.appname = 'lockit - Test App';
 exports.url = 'http://localhost:3000';
 
@@ -19,6 +18,7 @@ exports.accountLockedTime = '20 minutes';
 
 // send html to client (false) or only json (true)
 exports.rest = false;
+exports.restRoute = '/public/index.html';
 
 // signup settings
 exports.signup = {
