@@ -3,11 +3,11 @@ var request = require('supertest');
 var should = require('should');
 
 describe('lockit', function() {
-  
+
   describe('# with rest enabled', function() {
-    
+
     var app;
-    
+
     before(function(done) {
       var config = require('./config');
       config.port = 4000;
@@ -15,15 +15,18 @@ describe('lockit', function() {
       app = require('./app.js')(config);
       done();
     });
-    
+
     var routes = [
       '/login',
       '/logout',
       '/signup',
+      '/signup/some-token',
+      '/signup/resend-verification',
       '/delete-account',
-      '/forgot-password'
+      '/forgot-password',
+      '/forgot-password/some-token'
     ];
-    
+
     routes.forEach(function(route) {
 
       it('should point ' + route + ' to index', function(done) {
@@ -34,13 +37,13 @@ describe('lockit', function() {
             done();
           });
       });
-      
+
     });
-    
+
   });
-  
+
   describe('# without rest', function() {
-    
+
     var app;
 
     before(function(done) {
@@ -60,7 +63,7 @@ describe('lockit', function() {
           done();
         });
     });
-  
+
     it('should include the login module', function(done) {
       request(app)
         .get('/login')
@@ -70,7 +73,7 @@ describe('lockit', function() {
           done();
         });
     });
-  
+
     it('should include the delete account module', function(done) {
       request(app)
         .get('/delete-account')
@@ -80,7 +83,7 @@ describe('lockit', function() {
           done();
         });
     });
-  
+
     it('should include the forgot password module', function(done) {
       request(app)
         .get('/forgot-password')
@@ -90,8 +93,7 @@ describe('lockit', function() {
           done();
         });
     });
-    
+
   });
 
 });
-
