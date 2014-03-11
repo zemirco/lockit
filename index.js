@@ -1,4 +1,3 @@
-
 // require event emitter
 var events = require('events');
 var util = require('util');
@@ -53,7 +52,7 @@ var Lockit = module.exports = function(app, config) {
 
     routes.forEach(function(route) {
       app.get(route, function(req, res) {
-        res.sendfile(path.join(__parentDir, 'public', 'index.html'));
+        res.sendfile(path.join(__parentDir, config.restRoute));
       });
     });
 
