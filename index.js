@@ -52,7 +52,7 @@ var Lockit = module.exports = function(app, config) {
 
     routes.forEach(function(route) {
       app.get(route, function(req, res) {
-        res.sendfile(path.join(__parentDir, config.restRoute));
+        res.render(path.join(__parentDir, config.restIndex));
       });
     });
 
