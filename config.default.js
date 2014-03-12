@@ -18,7 +18,7 @@ exports.accountLockedTime = '20 minutes';
 
 // send html to client (false) or only json (true)
 exports.rest = false;
-exports.restRoute = '/public/index.html';
+exports.restIndex = '/public/index.html';
 
 // signup settings
 exports.signup = {
