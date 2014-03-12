@@ -42,8 +42,8 @@ var Lockit = module.exports = function(app, config) {
 
     var routes = [
       config.signup.route,
-      config.signup.route + '/:token',
       config.signup.route + '/resend-verification',
+      config.signup.route + '/:token',
       config.login.route,
       config.login.logoutRoute,
       config.forgotPassword.route,
