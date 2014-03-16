@@ -17,6 +17,23 @@ It consists of multiple single purpose modules:
  - [lockit-utilities](https://github.com/zeMirco/lockit-utilities)
  - [lockit-template-blank](https://github.com/zeMirco/lockit-template-blank)
 
+## Table of contents
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+  - [Database connection](#database-connection)
+  - [Sending emails](#sending-emails)
+  - [Custom views](#custom-views)
+- [Events](#events)
+  - [#signup](#signup)
+  - [#login](#login)
+  - [#logout](#logout)
+  - [#delete](#delete)
+- [REST API](#rest-api)
+- [Sample config](#sample-config)
+- [Features](#features)
+- [Routes included](#routes-included)
+
 ## Installation
 
 1. Install and require
@@ -26,42 +43,42 @@ It consists of multiple single purpose modules:
   ```js
   var config = require('./config.js');
   var Lockit = require('lockit');
-  
+
   var app = express();
-  
+
   // express middleware
   // ...
   // sessions are required
   app.use(express.cookieParser('your secret here'));
   app.use(express.cookieSession());
-  
+
   // use middleware before router so your own routes have access to
   // req.session.email and req.session.username
   var lockit = new Lockit(app, config);
-  
+
   // you now have all the routes like /login, /signup, etc.
   // and you can listen on events. For example 'signup'
   lockit.on('signup', function(user, res) {
     console.log('a new user signed up');
     res.send('Welcome!');   // set signup.handleResponse to 'false' for this to work
   });
-  
+
   app.use(app.router);
   // continue with express middleware
   // ...
   ```
-  
+
 2. Add styles
 
-  Views are built with [bootstrap](http://getbootstrap.com/). 
+  Views are built with [bootstrap](http://getbootstrap.com/).
   You can use [your own ones](#custom-views) though!
   Use Bootstrap CDN and add the following line to your `layout.jade`
-  
+
   ```jade
   link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
   ```
 
-3. Install database adapter 
+3. Install database adapter
 
   `npm install lockit-[DB]-adapter` where `[DB]` can be
 
@@ -70,9 +87,9 @@ It consists of multiple single purpose modules:
   | [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) | `npm install lockit-couchdb-adapter` |
   | [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) | `npm install lockit-mongodb-adapter` |
   | [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zeMirco/lockit-sql-adapter) | `npm install lockit-sql-adapter` |
-  
+
   If you use a SQL database you also have to install the connector.
-  
+
   ```
   npm install pg       # for postgres
   npm install mysql    # for mysql
@@ -87,7 +104,7 @@ You need a `config.js` somewhere in your app.
 ### Database connection
 
 Add the database connection string to your `config.js`.
- 
+
 ```js
 // database settings for CouchDB
 exports.db = 'http://127.0.0.1:5984/test';        // connection string for database
@@ -108,17 +125,17 @@ exports.db = 'http://127.0.0.1:5984/test';        // connection string for datab
 // exports.db = 'sqlite://:memory:';
 // exports.dbCollection = 'users';
 ```
- 
-### Send emails
 
-By default the email service is stubbed and no emails are sent. 
-That means that you won't receive any signup and password reset tokens. 
+### Sending emails
+
+By default the email service is stubbed and no emails are sent.
+That means that you won't receive any signup and password reset tokens.
 You have to look them up in your database and call the routes manually (e.g. `/signup/:token`).
 To send emails you need an email server and you have to change the settings in your `config.js`:
 
  - `emailType` - usually `SMTP`
  - `emailSettings` - see [nodemailer](https://github.com/andris9/Nodemailer) for more information
- 
+
 With [mailgun](http://www.mailgun.com/pricing) you can send up to 10,000 emails per month for free.
 
 ```js
@@ -179,7 +196,7 @@ For more information about each view see the `views` folder inside the different
 Make sure your view extends `/layout` which is different to your normal views. They extend `layout`
 without the slash. This is required to find the view.
 
-### Events
+## Events
 
 Lockit emits the most important events for user authentication. Those are
 
@@ -187,11 +204,11 @@ Lockit emits the most important events for user authentication. Those are
  - `login`
  - `logout`
  - `delete`
- 
-You can use these events to intercept requests and implement some custom logic, 
+
+You can use these events to intercept requests and implement some custom logic,
 like getting the gravatar before sending a response to the client.
- 
-#### `signup`
+
+##### `signup`
 
 A new user signed up. The callback function has two arguments.
 
@@ -199,7 +216,7 @@ A new user signed up. The callback function has two arguments.
 - `res` is the standard Express.js `res` object with methods like `res.render` and `res.send`.
 If you've set `signup.handleResponse` to `false` Lockit will not handle the response for you.
 You therefore have to send the response back to the client manually or otherwise it will wait forever.
- 
+
 ```js
 lockit.on('signup', function(user, res) {
   // ...
@@ -265,10 +282,10 @@ Here is a short example how the process works.
 7. Server sends status code `200` or some JSON with error message
 8. Client reacts to JSON from server and redirects on success or shows error
 
-I've built a [simple example](https://github.com/zeMirco/lockit/tree/master/examples/angular) 
+I've built a [simple example](https://github.com/zeMirco/lockit/tree/master/examples/angular)
 using AngularJS on the client side.
- 
-### Example config
+
+### Sample config
 
 If you want to go crazy and customize all the things you can:
 
