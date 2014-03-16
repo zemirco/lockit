@@ -257,7 +257,7 @@ lockit.on('delete', function(user, res) {
 });
 ```
 
-### REST API
+## REST API
 
 In a single page application (SPA) all the routing and template rendering is done on the client.
 Before version 0.5.0 Lockit caught relevant routes, like `/login` or `/signup`,
@@ -285,7 +285,7 @@ Here is a short example how the process works.
 I've built a [simple example](https://github.com/zeMirco/lockit/tree/master/examples/angular)
 using AngularJS on the client side.
 
-### Sample config
+## Sample config
 
 If you want to go crazy and customize all the things you can:
 
