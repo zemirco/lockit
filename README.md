@@ -19,7 +19,8 @@ It consists of multiple single purpose modules:
 
 ## Table of contents
 
-- [Installation](#installation)
+- [Quickstart](#quickstart)
+- [Full Installation](#full-installation)
 - [Configuration](#configuration)
   - [Database connection](#database-connection)
   - [Sending emails](#sending-emails)
@@ -34,11 +35,40 @@ It consists of multiple single purpose modules:
 - [Features](#features)
 - [Routes included](#routes-included)
 
-## Installation
+## Quickstart
+
+1. Create new Express app (sessions are required).
+
+  `express -s`
+
+2. Install Lockit via npm.
+
+  `npm install lockit --save`
+
+3. Use `lockit` in your Express `app.js`.
+
+  ```js
+  var lockit = require('lockit');
+
+  ...
+  lockit(app);
+  app.use(app.router);  // default express.js router
+  ```
+
+4. Go to [localhost:3000/signup](http://localhost:3000/signup)
+
+By default Lockit uses an in-memory SQLite database.
+So you don't have to set up any db. Lockit will just work.
+Check out the [default example](https://github.com/zeMirco/lockit/tree/master/examples/default).
+
+
+For production use a persistent data store!
+
+## Full installation
 
 1. Install and require
 
-  `npm install lockit`
+  `npm install lockit --save`
 
   ```js
   var config = require('./config.js');
