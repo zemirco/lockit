@@ -1,36 +1,42 @@
 
-// require event emitter
+var path = require('path');
 var events = require('events');
 var util = require('util');
-
-var path = require('path');
+var chalk = require('chalk');
 var extend = require('node.extend');
 var Signup = require('lockit-signup');
 var Login = require('lockit-login');
 var forgotPassword = require('lockit-forgot-password');
 var DeleteAccount = require('lockit-delete-account');
+var lockitUtils = require('lockit-utils');
 
 var configDefault = require('./config.default.js');
 
 // wrapper for independent modules
 var Lockit = module.exports = function(app, config) {
 
-  if (!(this instanceof Lockit)) {
-    return new Lockit(app, config);
-  }
+  if (!(this instanceof Lockit)) return new Lockit(app, config);
 
+  // create config if none is given
+  config = config || {};
+
+  // need for emitting events
   var that = this;
 
   // set basedir so views can properly extend layout.jade
   var __parentDir = path.dirname(module.parent.filename);
   app.locals.basedir = path.join(__parentDir, '/views');
 
-  // check for database settings - only ones that are really required
-  if (!config.db) throw new Error('Please specify database settings');
+  // check for database settings - use SQLite as fallback
+  if (!config.db) {
+    config.db = 'sqlite://:memory:';
+    config.dbCollection = config.dbCollection || 'users';
+    console.log(chalk.bgBlack.green('lockit'), 'no db config found. Using SQLite.');
+  }
 
   // check for email settings
   if (!config.emailType || !config.emailSettings) {
-    console.log('Email configuration incomplete -> using "stub".\nCheck your database for tokens.');
+    console.log(chalk.bgBlack.green('lockit'), 'no email config found. Check your database for tokens.');
   }
 
   // use default values for all values that aren't provided
@@ -67,15 +73,30 @@ var Lockit = module.exports = function(app, config) {
     next();
   });
 
+  // create db adapter only once and pass it to modules
+  var db = lockitUtils.getDatabase(config);
+  var adapter = require(db.adapter)(config);
+
   // load all required modules
-  var signup = new Signup(app, config);
-  var login = new Login(app, config);
-  var deleteAccount = new DeleteAccount(app, config);
-  forgotPassword(app, config);
+  var signup = new Signup(app, config, adapter);
+  var login = new Login(app, config, adapter);
+  var deleteAccount = new DeleteAccount(app, config, adapter);
+  forgotPassword(app, config, adapter);
 
   // pipe events to lockit
   signup.on('signup', function(user, res) {
     that.emit('signup', user, res);
+  });
+
+  signup.on('signup::post', function(user) {
+    if (config.db === 'sqlite://:memory:') {
+      console.log(
+        chalk.bgBlack.green('lockit'),
+        chalk.bgBlack.yellow('http://localhost:3000/signup/' + user.signupToken),
+        'cmd + double click on os x'
+      );
+    }
+    that.emit('signup::post', user);
   });
 
   login.on('login', function(user, res, target) {
