@@ -59,7 +59,11 @@ var Lockit = module.exports = function(app, config) {
 
     routes.forEach(function(route) {
       app.get(route, function(req, res) {
-        res.sendfile(path.join(__parentDir, 'public', 'index.html'));
+        // check if user would like to render a .jade file
+        if (/.+\.jade$/.test(config.restIndexPage)) return res.render(config.restIndexPage);
+
+        // default - send .html file
+        res.sendfile(path.join(__parentDir, config.restIndexPage));
       });
     });
 
