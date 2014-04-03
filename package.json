@@ -35,7 +35,7 @@
     "lockit-utils": "0.1.1",
     "node.extend": "~1.0.9",
     "chalk": "~0.4.0",
-    "lockit-sql-adapter": "~0.2.0",
+    "lockit-sql-adapter": "0.3.0",
     "sqlite3": "~2.2.0"
   },
   "devDependencies": {
@@ -46,6 +46,6 @@
     "grunt-mocha-test": "~0.8.1",
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.8.0",
-    "lockit-couchdb-adapter": "0.2.2"
+    "lockit-couchdb-adapter": "0.3.0"
   }
 }
