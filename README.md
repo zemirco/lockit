@@ -342,6 +342,9 @@ exports.emailTemplate = 'lockit-template-blank';
 // render views or json for single page apps
 exports.rest = false;
 
+// set starting page for single page app
+exports.restIndexPage = 'public/index.html';
+
 // signup settings
 exports.signup = {
   route: '/signup',
