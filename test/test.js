@@ -13,6 +13,7 @@ describe('lockit', function() {
       config.port = 4000;
       config.rest = true;
       app = require('./app.js')(config);
+
       done();
     });
 
@@ -29,11 +30,51 @@ describe('lockit', function() {
 
     routes.forEach(function(route) {
 
-      it('should point ' + route + ' to index', function(done) {
+      it('should point ' + route + ' to public/index.html', function(done) {
         request(app)
           .get(route)
           .end(function(err, res) {
             res.text.should.include('This is index.html');
+            done();
+          });
+      });
+
+    });
+
+  });
+
+  describe('# with rest enabled and restIndexPage is .jade file', function() {
+
+    var app;
+
+    before(function(done) {
+      var config = require('./config');
+      config.port = 5000;
+      config.rest = true;
+      config.restIndexPage = 'main.jade';
+      app = require('./app.js')(config);
+
+      done();
+    });
+
+    var routes = [
+      '/login',
+      '/logout',
+      '/signup',
+      '/signup/some-token',
+      '/signup/resend-verification',
+      '/delete-account',
+      '/forgot-password',
+      '/forgot-password/some-token'
+    ];
+
+    routes.forEach(function(route) {
+
+      it('should render main.jade for route ' + route, function(done) {
+        request(app)
+          .get(route)
+          .end(function(err, res) {
+            res.text.should.include('This is from main.jade');
             done();
           });
       });

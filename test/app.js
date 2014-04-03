@@ -12,7 +12,7 @@ var path = require('path');
 var Lockit = require('../index.js');
 
 function start(config) {
-  
+
   var app = express();
 
   // set basedir so views can properly extend layout.jade
@@ -47,9 +47,9 @@ function start(config) {
   app.get('/users', user.list);
 
   http.createServer(app).listen(app.get('port'));
-  
+
   return app;
-  
+
 }
 
 // export app for testing
