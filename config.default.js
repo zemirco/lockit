@@ -20,6 +20,9 @@ exports.accountLockedTime = '20 minutes';
 // send html to client (false) or only json (true)
 exports.rest = false;
 
+// set starting page for single page app (relative to your app.js)
+exports.restIndexPage = 'public/index.html';
+
 // signup settings
 exports.signup = {
   route: '/signup',
