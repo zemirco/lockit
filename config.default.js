@@ -20,8 +20,16 @@ exports.accountLockedTime = '20 minutes';
 // send html to client (false) or only json (true)
 exports.rest = false;
 
-// set starting page for single page app (relative to your app.js)
-exports.restIndexPage = 'public/index.html';
+// or if you want to use rest
+// exports.rest = {
+//
+//   // set starting page for single page app
+//   index: 'public/index.html',
+//
+//   // use view engine (render()) or send static file (sendfile())
+//   useViewEngine: false
+//
+// }
 
 // signup settings
 exports.signup = {
