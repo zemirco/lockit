@@ -59,19 +59,20 @@ var Lockit = module.exports = function(app, config) {
 
     routes.forEach(function(route) {
       app.get(route, function(req, res) {
-        // check if user would like to render a .jade file
-        if (/.+\.jade$/.test(config.restIndexPage)) return res.render(config.restIndexPage);
-
-        // default - send .html file
-        res.sendfile(path.join(__parentDir, config.restIndexPage));
+        // check if user would like to render a file or use static html
+        if (config.rest.useViewEngine) {
+          res.render(config.rest.index);
+        } else {
+          res.sendfile(path.join(__parentDir, config.rest.index));
+        }
       });
     });
 
   }
 
-  // expose username and email to template engine
+  // expose name and email to template engine
   app.use(function(req, res, next) {
-    res.locals.username = req.session.username || '';
+    res.locals.name = req.session.name || '';
     res.locals.email = req.session.email || '';
     // continue with next middleware
     next();
