@@ -11,7 +11,10 @@ describe('lockit', function() {
     before(function(done) {
       var config = require('./config');
       config.port = 4000;
-      config.rest = true;
+      config.rest = {
+        index: 'public/index.html',
+        useViewEngine: false
+      };
       app = require('./app.js')(config);
 
       done();
@@ -50,8 +53,10 @@ describe('lockit', function() {
     before(function(done) {
       var config = require('./config');
       config.port = 5000;
-      config.rest = true;
-      config.restIndexPage = 'main.jade';
+      config.rest = {
+        index: 'main',
+        useViewEngine: true
+      };
       app = require('./app.js')(config);
 
       done();
