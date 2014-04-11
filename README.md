@@ -336,6 +336,12 @@ exports.emailSettings = {
   }
 };
 
+// whenever a library uses request under the hood (like nano in lockit-couchdb-adapter)
+// the following values will be used
+exports.request_defaults = {
+  // proxy: 'http://someproxy'
+};
+
 // email template from npm
 exports.emailTemplate = 'lockit-template-blank';
 
