@@ -48,27 +48,27 @@ http.createServer(app).listen(app.get('port'), function(){
 // get the gravatar image url for every new user
 // signup.handleResponse is 'false' in 'config.js'
 lockit.on('signup', function(user, res) {
-  
+
   // get email from user object
   var email = user.email;
-  
+
   // generate hash and url for gravatar api
   var hash = crypto.createHash('md5').update(email).digest('hex');
   var url = 'http://www.gravatar.com/avatar/' + hash;
-  
+
   // update user information
   user.gravatar = url;
-  
+
   // save updated user to db
   adapter.update(user, function(err, user) {
     if (err) console.log(err);
-    
+
     // now send a response to the client
     res.render('gravatar', {
-      username: user.username,
+      name: user.name,
       gravatar: url
     });
-    
+
   });
-  
+
 });

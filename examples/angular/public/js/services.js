@@ -32,9 +32,9 @@ services.factory('user', function($http, $cookies, $q){
         });
       return deferred.promise;
     },
-    signup: function(username, email, password) {
+    signup: function(name, email, password) {
       return $http.post('/rest/signup', {
-        username: username,
+        name: name,
         email: email,
         password: password
       });

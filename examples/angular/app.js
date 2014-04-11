@@ -44,7 +44,7 @@ if (app.get('env') === 'development') {
 
 app.get('/rest/whoami', utls.restrict(config), function(req, res) {
   res.json({
-    username: req.session.username
+    name: req.session.name
   });
 });
 
