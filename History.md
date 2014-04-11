@@ -1,4 +1,39 @@
 
+##### 0.8.0 - 2014-04-11
+
+- per-user database with `_security` document in CouchDB with all users in `_users` database
+- add support for optional `request_defaults` (used by lockit-couchdb-adapter)
+
+  ```js
+  exports.request_defaults = {
+    // proxy: 'http://someproxy'
+  };
+  ```
+
+- `username` becomes `name`
+- use built-in [pbkdf2](http://nodejs.org/api/crypto.html#crypto_crypto_pbkdf2_password_salt_iterations_keylen_callback)
+  instead [bcrypt](https://github.com/ncb000gt/node.bcrypt.js/)
+- improve `rest` config settings
+
+  either
+
+  ```js
+  exports.rest = false;  // default setting
+  ```
+
+  or
+
+  ```js
+  exports.rest = {
+    // set starting page for single page app
+    index: 'public/index.html',
+
+    // use view engine (render()) or send static file (sendfile())
+    useViewEngine: false
+  }
+  ```
+
+
 ##### 0.7.2 - 2014-04-03
 
 - add `exports.restIndexPage = 'public/index.html'` to default config
