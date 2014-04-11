@@ -1,6 +1,6 @@
 # Lockit
 
-[![Build Status](https://travis-ci.org/zeMirco/lockit.png?branch=master)](https://travis-ci.org/zeMirco/lockit) [![NPM version](https://badge.fury.io/js/lockit.png)](http://badge.fury.io/js/lockit)
+[![Build Status](https://travis-ci.org/zeMirco/lockit.svg?branch=master)](https://travis-ci.org/zeMirco/lockit) [![NPM version](https://badge.fury.io/js/lockit.svg)](http://badge.fury.io/js/lockit)
 
 Lockit is an authentication solution for [Express](http://expressjs.com/).
 
@@ -83,7 +83,7 @@ For production use a persistent data store!
   app.use(express.cookieSession());
 
   // use middleware before router so your own routes have access to
-  // req.session.email and req.session.username
+  // req.session.email and req.session.name
   var lockit = new Lockit(app, config);
 
   // you now have all the routes like /login, /signup, etc.
@@ -242,7 +242,7 @@ like getting the gravatar before sending a response to the client.
 
 A new user signed up. The callback function has two arguments.
 
-- `user` is an object and contains information about the new user, like `user.username` or `user.email`.
+- `user` is an object and contains information about the new user, like `user.name` or `user.email`.
 - `res` is the standard Express.js `res` object with methods like `res.render` and `res.send`.
 If you've set `signup.handleResponse` to `false` Lockit will not handle the response for you.
 You therefore have to send the response back to the client manually or otherwise it will wait forever.
@@ -342,15 +342,23 @@ exports.emailTemplate = 'lockit-template-blank';
 // render views or json for single page apps
 exports.rest = false;
 
-// set starting page for single page app
-exports.restIndexPage = 'public/index.html';
+// or if you want to use rest
+// exports.rest = {
+//
+//   // set starting page for single page app
+//   index: 'public/index.html',
+//
+//   // use view engine (render()) or send static file (sendfile())
+//   useViewEngine: false
+//
+// }
 
 // signup settings
 exports.signup = {
   route: '/signup',
   tokenExpiration: '1 day',
   views: {
-    signup: '',         // input fields 'username', 'email' and 'password' | local variable 'error' | POST /'signup.route'
+    signup: '',         // input fields 'name', 'email' and 'password' | local variable 'error' | POST /'signup.route'
     linkExpired: '',    // message link has expired | input field 'email' | POST /'signup.route'/resend-verification
     verified: '',       // message email is now verified and maybe link to /'login.route'
     signedUp: '',       // message email has been sent => check your inbox
@@ -387,7 +395,7 @@ exports.forgotPassword = {
 exports.deleteAccount = {
   route: '/delete-account',
   views: {
-    remove: '',         // input fields 'username', 'phrase', 'password' | POST /'deleteAccount.route' | local variable 'error'
+    remove: '',         // input fields 'name', 'phrase', 'password' | POST /'deleteAccount.route' | local variable 'error'
     removed: ''         // message that account has been deleted
   },
   handleResponse: true  // let lockit handle the response after delete account success
@@ -500,10 +508,4 @@ From [lockit-delete-account](https://github.com/zeMirco/lockit-delete-account)
 
 ## License
 
-Copyright (C) 2014 [Mirco Zeiss](mailto: mirco.zeiss@gmail.com)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+MIT
