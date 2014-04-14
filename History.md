@@ -1,4 +1,8 @@
 
+##### 0.8.1 - 2014-04-14
+
+- username (`name`) has to be lowercase and has to start with a letter
+
 ##### 0.8.0 - 2014-04-11
 
 - per-user database with `_security` document in CouchDB with all users in `_users` database
