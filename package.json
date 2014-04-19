@@ -28,24 +28,24 @@
   "dependencies": {
     "debug": "~0.7.4",
     "nano": "~4.6.1",
-    "lockit-signup": "0.7.1",
-    "lockit-login": "0.7.0",
-    "lockit-forgot-password": "0.5.0",
-    "lockit-delete-account": "0.6.0",
-    "lockit-utils": "0.2.0",
+    "lockit-signup": "1.0.0",
+    "lockit-login": "1.0.0",
+    "lockit-forgot-password": "1.0.0",
+    "lockit-delete-account": "1.0.0",
+    "lockit-utils": "0.3.0",
     "node.extend": "~1.0.9",
     "chalk": "~0.4.0",
-    "lockit-sql-adapter": "0.4.0",
-    "sqlite3": "~2.2.0"
+    "lockit-sql-adapter": "0.5.0",
+    "sqlite3": "~2.2.0",
+    "express": "^4.0.0"
   },
   "devDependencies": {
-    "express": "3.3.5",
     "jade": "*",
     "should": "~2.1.1",
     "supertest": "~0.8.2",
     "grunt-mocha-test": "~0.8.1",
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.8.0",
-    "lockit-couchdb-adapter": "0.4.0"
+    "lockit-couchdb-adapter": "0.4.1"
   }
 }
