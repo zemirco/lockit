@@ -2,20 +2,21 @@
 var path = require('path');
 var events = require('events');
 var util = require('util');
+var express = require('express');
 var chalk = require('chalk');
 var extend = require('node.extend');
 var Signup = require('lockit-signup');
 var Login = require('lockit-login');
-var forgotPassword = require('lockit-forgot-password');
+var ForgotPassword = require('lockit-forgot-password');
 var DeleteAccount = require('lockit-delete-account');
 var lockitUtils = require('lockit-utils');
 
 var configDefault = require('./config.default.js');
 
 // wrapper for independent modules
-var Lockit = module.exports = function(app, config) {
+var Lockit = module.exports = function(config) {
 
-  if (!(this instanceof Lockit)) return new Lockit(app, config);
+  if (!(this instanceof Lockit)) return new Lockit(config);
 
   // create config if none is given
   config = config || {};
@@ -23,14 +24,13 @@ var Lockit = module.exports = function(app, config) {
   // need for emitting events
   var that = this;
 
-  // set basedir so views can properly extend layout.jade
-  var __parentDir = path.dirname(module.parent.filename);
-  app.locals.basedir = path.join(__parentDir, '/views');
-
   // check for database settings - use SQLite as fallback
   if (!config.db) {
-    config.db = 'sqlite://:memory:';
-    config.dbCollection = config.dbCollection || 'users';
+    config.db = {
+      url: 'sqlite://',
+      name: ':memory:',
+      collection: 'my_user_table'
+    };
     console.log(chalk.bgBlack.green('lockit'), 'no db config found. Using SQLite.');
   }
 
@@ -43,8 +43,23 @@ var Lockit = module.exports = function(app, config) {
   // true for deep extend
   config = extend(true, configDefault, config);
 
+  // create db adapter only once and pass it to modules
+  var db = lockitUtils.getDatabase(config);
+  var adapter = require(db.adapter)(config);
+
+  // load all required modules
+  var signup = new Signup(config, adapter);
+  var login = new Login(config, adapter);
+  var deleteAccount = new DeleteAccount(config, adapter);
+  var forgotPassword = new ForgotPassword(config, adapter);
+
+  // router
+  var router = express.Router();
+
   // send all GET requests for lockit routes to '/index.html'
   if (config.rest) {
+
+    var __parentDir = path.dirname(module.parent.filename);
 
     var routes = [
       config.signup.route,
@@ -58,10 +73,12 @@ var Lockit = module.exports = function(app, config) {
     ];
 
     routes.forEach(function(route) {
-      app.get(route, function(req, res) {
+      router.get(route, function(req, res) {
         // check if user would like to render a file or use static html
         if (config.rest.useViewEngine) {
-          res.render(config.rest.index);
+          res.render(config.rest.index, {
+            basedir: req.app.get('views')
+          });
         } else {
           res.sendfile(path.join(__parentDir, config.rest.index));
         }
@@ -71,22 +88,20 @@ var Lockit = module.exports = function(app, config) {
   }
 
   // expose name and email to template engine
-  app.use(function(req, res, next) {
+  router.use(function(req, res, next) {
     res.locals.name = req.session.name || '';
     res.locals.email = req.session.email || '';
     // continue with next middleware
     next();
   });
 
-  // create db adapter only once and pass it to modules
-  var db = lockitUtils.getDatabase(config);
-  var adapter = require(db.adapter)(config);
+  // add submodule routes
+  router.use(signup.router);
+  router.use(login.router);
+  router.use(deleteAccount.router);
+  router.use(forgotPassword.router);
+  this.router = router;
 
-  // load all required modules
-  var signup = new Signup(app, config, adapter);
-  var login = new Login(app, config, adapter);
-  var deleteAccount = new DeleteAccount(app, config, adapter);
-  forgotPassword(app, config, adapter);
 
   // pipe events to lockit
   signup.on('signup', function(user, res) {
@@ -94,7 +109,7 @@ var Lockit = module.exports = function(app, config) {
   });
 
   signup.on('signup::post', function(user) {
-    if (config.db === 'sqlite://:memory:') {
+    if (config.db.url === 'sqlite://' && config.db.name === ':memory:') {
       console.log(
         chalk.bgBlack.green('lockit'),
         chalk.bgBlack.yellow('http://localhost:3000/signup/' + user.signupToken),
