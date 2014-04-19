@@ -37,22 +37,26 @@ It consists of multiple single purpose modules:
 
 ## Quickstart
 
-1. Create new Express app (sessions are required).
+1. Create new Express app.
 
-  `express -s`
+  `express`
 
-2. Install Lockit via npm.
+2. Install Lockit and sessions via npm.
 
-  `npm install lockit --save`
+  `npm install lockit cookie-session --save`
 
-3. Use `lockit` in your Express `app.js`.
+3. Use `lockit` and `cookie-session` in your Express `app.js`.
 
   ```js
-  var lockit = require('lockit');
+  var cookieSession = require('cookie-session');
+  var Lockit = require('lockit');
+  var lockit = new Lockit();
 
   ...
-  lockit(app);
-  app.use(app.router);  // default express.js router
+  app.use(cookieSession({
+    secret: 'my super secret String'
+  }));
+  app.use(lockit.router);
   ```
 
 4. Go to [localhost:3000/signup](http://localhost:3000/signup)
@@ -60,7 +64,6 @@ It consists of multiple single purpose modules:
 By default Lockit uses an in-memory SQLite database.
 So you don't have to set up any db. Lockit will just work.
 Check out the [default example](https://github.com/zeMirco/lockit/tree/master/examples/default).
-
 
 For production use a persistent data store!
 
@@ -79,12 +82,14 @@ For production use a persistent data store!
   // express middleware
   // ...
   // sessions are required
-  app.use(express.cookieParser('your secret here'));
-  app.use(express.cookieSession());
+  app.use(cookieParser());
+  app.use(cookieSession({
+    secret: 'your secret here'
+  }));
 
-  // use middleware before router so your own routes have access to
-  // req.session.email and req.session.name
-  var lockit = new Lockit(app, config);
+  var lockit = new Lockit(config);
+
+  app.use(lockit.router);
 
   // you now have all the routes like /login, /signup, etc.
   // and you can listen on events. For example 'signup'
@@ -92,10 +97,6 @@ For production use a persistent data store!
     console.log('a new user signed up');
     res.send('Welcome!');   // set signup.handleResponse to 'false' for this to work
   });
-
-  app.use(app.router);
-  // continue with express middleware
-  // ...
   ```
 
 2. Add styles
@@ -140,20 +141,32 @@ Add the database connection string to your `config.js`.
 exports.db = 'http://127.0.0.1:5984/';        // connection string for database
 
 // or if you want to use MongoDB
-// exports.db = 'mongodb://127.0.0.1/test';
-// exports.dbCollection = 'users';                // collection name for MongoDB
+// exports.db = {
+//   url: 'mongodb://127.0.0.1/',
+//   name: 'test',
+//   collection: 'users'  // collection name for MongoDB
+// };
 
 // PostgreSQL
-// exports.db = 'postgres://127.0.0.1:5432/users';
-// exports.dbCollection = 'users';                // table name for SQL databases
+// exports.db = {
+//   url: 'postgres://127.0.0.1:5432/',
+//   name: 'users',
+//   collection: 'my_user_table'  // table name for SQL databases
+// };
 
 // MySQL
-// exports.db = 'mysql://127.0.0.1:9821/users';
-// exports.dbCollection = 'users';
+// exports.db = {
+//   url: 'mysql://127.0.0.1:3306/',
+//   name: 'users',
+//   collection: 'my_user_table'
+// };
 
 // SQLite
-// exports.db = 'sqlite://:memory:';
-// exports.dbCollection = 'users';
+// exports.db = {
+//   url: 'sqlite://',
+//   name: ':memory:',
+//   collection: 'my_user_table'
+// };
 ```
 
 ### Sending emails
@@ -289,17 +302,27 @@ lockit.on('delete', function(user, res) {
 
 ## REST API
 
-In a single page application (SPA) all the routing and template rendering is done on the client.
+In a single page application (SPA) all routing and template rendering is done on the client.
 Before version 0.5.0 Lockit caught relevant routes, like `/login` or `/signup`,
 and did the entire rendering on the server.
 
 Starting with version 0.5.0 you're able to use Lockit as a REST API and communicate via JSON.
-All you have to do is set `exports.rest = true` in your `config.js`.
+All you have to do is set `exports.rest` in your `config.js`.
+
+```js
+exports.rest = {
+  // set starting page for single page app
+  index: 'public/index.html',
+
+  // use view engine (render()) or send static file (sendfile())
+  useViewEngine: false
+}
+```
 
 With REST enabled all default routes get a `/rest` prefix so you can catch `/login`
 on the client. To allow for true page refreshes (i.e. user is at `/login` and refreshes the page)
-all routes on the server, like `/login` and `/signup`, send the `index.html` from the `public/`
-folder. From there your SPA has to take over.
+all routes on the server, like `/login` and `/signup`, send the `rest.index` view
+to the client. From there your SPA has to take over.
 
 Here is a short example how the process works.
 
