@@ -1,4 +1,84 @@
 
+##### 1.0.0 - 2014-04-19
+
+- requires Express 4.x
+- makes use of `express.Router()`. No need to pass `app` around as an argument.
+
+  **old**
+
+  ```js
+  var Lockit = require('lockit');
+
+  var lockit = new Lockit(app, config);
+  ```
+
+  **new**
+
+  ```js
+  var Lockit = require('lockit');
+
+  var lockit = new Lockit(config);
+  app.use(lockit.router);
+  ```
+
+  Listening on events **stays the same**.
+
+  ```js
+  lockit.on('login', function(user, res, target) {
+    res.send('Welcome ' + user.name);
+  })
+  ```
+
+- proper Error handling. All Errors are piped to next middleware.
+
+  **old**
+
+  ```js
+  if (err) console.log(err);
+  ```
+
+  **new**
+
+  ```js
+  if (err) return next(err);
+  ```
+
+  Make sure you have some sort of error handling middleware at the end of your
+  routes (is included by default in Express 4.x apps if you use the `express-generator`).
+
+- database configuration is a single object
+
+  **old**
+
+  ```js
+  // database settings for CouchDB
+  exports.db = 'http://127.0.0.1:5984/test';
+
+  // or if you want to use MongoDB
+  // exports.db = 'mongodb://127.0.0.1/test';
+  // exports.dbCollection = 'users';
+  ```
+
+  **new**
+
+  ```js
+  // database settings for CouchDB
+  exports.db = {
+    url: 'http://127.0.0.1:5984/'  // important: no db at the end
+  }
+
+  // you can still use the short notation for CouchDB
+  // because CouchDB doesn't need 'name' and 'collection'
+  // exports.db = 'http://127.0.0.1:5984/';
+
+  // or if you want to use MongoDB (SQL is similar)
+  // exports.db = {
+  //   url: 'mongodb://127.0.0.1/',
+  //   name: 'test',
+  //   collection: 'users'
+  // }
+  ```
+
 ##### 0.8.1 - 2014-04-14
 
 - username (`name`) has to be lowercase and has to start with a letter
