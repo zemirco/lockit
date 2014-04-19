@@ -1,6 +1,6 @@
 {
   "name": "lockit",
-  "version": "0.8.1",
+  "version": "1.0.0",
   "description": "Authentication solution for Express",
   "main": "index.js",
   "scripts": {
