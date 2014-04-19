@@ -15,9 +15,9 @@ services.factory('user', function($http, $cookies, $q){
         $http.get('/rest/whoami').success(function(data) {
           $cookies.user = angular.toJson(data);
           deferred.resolve(data);
-        })
+        });
       }).error(function(data) {
-        deferred.reject(data.error)
+        deferred.reject(data.error);
       });
       return deferred.promise;
     },
@@ -25,10 +25,10 @@ services.factory('user', function($http, $cookies, $q){
       var deferred = $q.defer();
       $http.get('/rest/logout')
         .success(function() {
-          delete $cookies.user
+          delete $cookies.user;
           deferred.resolve();
         }).error(function(data) {
-          deferred.reject(data.error)
+          deferred.reject(data.error);
         });
       return deferred.promise;
     },
@@ -42,6 +42,6 @@ services.factory('user', function($http, $cookies, $q){
     get: function() {
       return angular.fromJson($cookies.user);
     }
-  }
+  };
 
 });

@@ -1,4 +1,3 @@
-'use strict';
 
 var app = angular.module('myApp.controllers', []);
 
@@ -14,7 +13,7 @@ app.controller('MainCtrl', function ($scope, user) {
       $scope.user = null;
     }, function(error) {
       console.log(error);
-    })
+    });
   };
 
 });
@@ -32,7 +31,7 @@ app.controller('LoginCtrl', function ($scope, $window, user) {
           $window.location = '/';
         }, function(error) {
           $scope.error = error;
-        })
+        });
 
   };
 
@@ -49,7 +48,7 @@ app.controller('SignupCtrl', function ($scope, user) {
     user.signup($scope.name, $scope.email, $scope.password)
       .success(function(data, status) {
         $scope.error = false;
-        $scope.success = 'Great! Check your inbox.'
+        $scope.success = 'Great! Check your inbox.';
       }).error(function(data, status) {
         $scope.success = false;
         $scope.error = data.error;
@@ -71,7 +70,7 @@ app.controller('SignupTokenCtrl', function ($scope, $routeParams, $http) {
       $scope.success = true;
     })
     .error(function(data, status) {
-      $scope.error = true
+      $scope.error = true;
     });
 
 
