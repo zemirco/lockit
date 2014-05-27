@@ -9,7 +9,7 @@ var Signup = require('lockit-signup');
 var Login = require('lockit-login');
 var ForgotPassword = require('lockit-forgot-password');
 var DeleteAccount = require('lockit-delete-account');
-var lockitUtils = require('lockit-utils');
+var utils = require('lockit-utils');
 
 var configDefault = require('./config.default.js');
 
@@ -44,7 +44,7 @@ var Lockit = module.exports = function(config) {
   config = extend(true, configDefault, config);
 
   // create db adapter only once and pass it to modules
-  var db = lockitUtils.getDatabase(config);
+  var db = utils.getDatabase(config);
   var adapter = require(db.adapter)(config);
 
   // load all required modules
