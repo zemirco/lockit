@@ -18,10 +18,7 @@ var Lockit = module.exports = function(config) {
 
   if (!(this instanceof Lockit)) return new Lockit(config);
 
-  // create config if none is given
   config = config || {};
-
-  // need for emitting events
   var that = this;
 
   // check for database settings - use SQLite as fallback
@@ -45,7 +42,7 @@ var Lockit = module.exports = function(config) {
 
   // create db adapter only once and pass it to modules
   var db = utils.getDatabase(config);
-  var adapter = require(db.adapter)(config);
+  var adapter = config.db.adapter || require(db.adapter)(config);
 
   // load all required modules
   var signup = new Signup(config, adapter);
