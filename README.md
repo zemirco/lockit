@@ -1,21 +1,23 @@
 # Lockit
 
-[![Build Status](https://travis-ci.org/zeMirco/lockit.svg?branch=master)](https://travis-ci.org/zeMirco/lockit) [![NPM version](https://badge.fury.io/js/lockit.svg)](http://badge.fury.io/js/lockit)
+[![Build Status](https://travis-ci.org/zemirco/lockit.svg?branch=master)](https://travis-ci.org/zemirco/lockit)
+[![NPM version](https://badge.fury.io/js/lockit.svg)](http://badge.fury.io/js/lockit)
+[![Dependency Status](https://david-dm.org/zemirco/lockit.svg)](https://david-dm.org/zemirco/lockit)
 
 Lockit is an authentication solution for [Express](http://expressjs.com/).
 
 It consists of multiple single purpose modules:
 
- - [lockit-login](https://github.com/zeMirco/lockit-login)
- - [lockit-signup](https://github.com/zeMirco/lockit-signup)
- - [lockit-delete-account](https://github.com/zeMirco/lockit-delete-account)
- - [lockit-forgot-password](https://github.com/zeMirco/lockit-forgot-password)
- - [lockit-sendmail](https://github.com/zeMirco/lockit-sendmail)
- - [lockit-couchdb-adapter](https://github.com/zeMirco/lockit-couchdb-adapter)
- - [lockit-mongodb-adapter](https://github.com/zeMirco/lockit-mongodb-adapter)
- - [lockit-sql-adapter](https://github.com/zeMirco/lockit-sql-adapter)
- - [lockit-utilities](https://github.com/zeMirco/lockit-utilities)
- - [lockit-template-blank](https://github.com/zeMirco/lockit-template-blank)
+ - [lockit-login](https://github.com/zemirco/lockit-login)
+ - [lockit-signup](https://github.com/zemirco/lockit-signup)
+ - [lockit-delete-account](https://github.com/zemirco/lockit-delete-account)
+ - [lockit-forgot-password](https://github.com/zemirco/lockit-forgot-password)
+ - [lockit-sendmail](https://github.com/zemirco/lockit-sendmail)
+ - [lockit-couchdb-adapter](https://github.com/zemirco/lockit-couchdb-adapter)
+ - [lockit-mongodb-adapter](https://github.com/zemirco/lockit-mongodb-adapter)
+ - [lockit-sql-adapter](https://github.com/zemirco/lockit-sql-adapter)
+ - [lockit-utilities](https://github.com/zemirco/lockit-utilities)
+ - [lockit-template-blank](https://github.com/zemirco/lockit-template-blank)
 
 ## Table of contents
 
@@ -43,7 +45,7 @@ It consists of multiple single purpose modules:
 
 2. Install Lockit and sessions via npm.
 
-  `npm install lockit cookie-session --save`
+  `npm install && npm install lockit cookie-session --save`
 
 3. Use `lockit` and `cookie-session` in your Express `app.js`.
 
@@ -63,7 +65,7 @@ It consists of multiple single purpose modules:
 
 By default Lockit uses an in-memory SQLite database.
 So you don't have to set up any db. Lockit will just work.
-Check out the [default example](https://github.com/zeMirco/lockit/tree/master/examples/default).
+Check out the [default example](https://github.com/zemirco/lockit/tree/master/examples/default).
 
 For production use a persistent data store!
 
@@ -115,9 +117,9 @@ For production use a persistent data store!
 
   | Database | Command |
   | --- | --- |
-  | [CouchDB](https://github.com/zeMirco/lockit-couchdb-adapter) | `npm install lockit-couchdb-adapter` |
-  | [MongoDB](https://github.com/zeMirco/lockit-mongodb-adapter) | `npm install lockit-mongodb-adapter` |
-  | [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zeMirco/lockit-sql-adapter) | `npm install lockit-sql-adapter` |
+  | [CouchDB](https://github.com/zemirco/lockit-couchdb-adapter) | `npm install lockit-couchdb-adapter` |
+  | [MongoDB](https://github.com/zemirco/lockit-mongodb-adapter) | `npm install lockit-mongodb-adapter` |
+  | [SQL (PostgreSQL, MySQL, MariaDB or SQLite)](https://github.com/zemirco/lockit-sql-adapter) | `npm install lockit-sql-adapter` |
 
   If you use a SQL database you also have to install the connector.
 
@@ -335,7 +337,7 @@ Here is a short example how the process works.
 7. Server sends status code `200` or some JSON with error message
 8. Client reacts to JSON from server and redirects on success or shows error
 
-I've built a [simple example](https://github.com/zeMirco/lockit/tree/master/examples/angular)
+I've built a [simple example](https://github.com/zemirco/lockit/tree/master/examples/angular)
 using AngularJS on the client side.
 
 ## Sample config
@@ -489,7 +491,7 @@ exports.emailForgotPassword = {
 
 ## Features
 
- - responsive html email template: [lockit-template-blank](https://github.com/zeMirco/lockit-template-blank)
+ - responsive html email template: [lockit-template-blank](https://github.com/zemirco/lockit-template-blank)
  - support for wide range of databases out of the box
  - email address verification
  - account locking after too many failed login attempts
@@ -505,7 +507,7 @@ exports.emailForgotPassword = {
 
 ## Routes included
 
-From [lockit-signup](https://github.com/zeMirco/lockit-signup)
+From [lockit-signup](https://github.com/zemirco/lockit-signup)
 
  - GET /signup
  - POST /signup
@@ -513,20 +515,21 @@ From [lockit-signup](https://github.com/zeMirco/lockit-signup)
  - GET /signup/resend-verification
  - POST /signup/resend-verification
 
-From [lockit-login](https://github.com/zeMirco/lockit-login)
+From [lockit-login](https://github.com/zemirco/lockit-login)
 
  - GET /login
  - POST /login
+ - POST /login/two-factor
  - GET /logout
 
-From [lockit-forgot-password](https://github.com/zeMirco/lockit-forgot-password)
+From [lockit-forgot-password](https://github.com/zemirco/lockit-forgot-password)
 
  - GET /forgot-password
  - POST /forgot-password
  - GET /forgot-password/:token
  - POST /forgot-password/:token
 
-From [lockit-delete-account](https://github.com/zeMirco/lockit-delete-account)
+From [lockit-delete-account](https://github.com/zemirco/lockit-delete-account)
 
  - GET /delete-account
  - POST /delete-account
