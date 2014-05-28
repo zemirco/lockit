@@ -10,122 +10,73 @@ var Login = require('lockit-login');
 var ForgotPassword = require('lockit-forgot-password');
 var DeleteAccount = require('lockit-delete-account');
 var utils = require('lockit-utils');
-
 var configDefault = require('./config.default.js');
 
-// wrapper for independent modules
+
+
+/**
+ * Lockit constructor function.
+ *
+ * @constructor
+ * @param {Object} config
+ */
 var Lockit = module.exports = function(config) {
 
   if (!(this instanceof Lockit)) return new Lockit(config);
 
-  config = config || {};
+  this.config = config || {};
   var that = this;
 
-  // check for database settings - use SQLite as fallback
-  if (!config.db) {
-    config.db = {
-      url: 'sqlite://',
-      name: ':memory:',
-      collection: 'my_user_table'
-    };
-    console.log(chalk.bgBlack.green('lockit'), 'no db config found. Using SQLite.');
-  }
-
-  // check for email settings
-  if (!config.emailType || !config.emailSettings) {
-    console.log(chalk.bgBlack.green('lockit'), 'no email config found. Check your database for tokens.');
-  }
+  if (!this.config.db) this.database();
+  if (!this.config.emailType || !this.config.emailSettings) this.email();
 
   // use default values for all values that aren't provided
-  // true for deep extend
-  config = extend(true, configDefault, config);
+  this.config = extend(true, configDefault, this.config);
 
   // create db adapter only once and pass it to modules
-  var db = utils.getDatabase(config);
-  var adapter = config.db.adapter || require(db.adapter)(config);
+  var db = utils.getDatabase(this.config);
+  this.adapter = this.config.db.adapter || require(db.adapter)(this.config);
 
   // load all required modules
-  var signup = new Signup(config, adapter);
-  var login = new Login(config, adapter);
-  var deleteAccount = new DeleteAccount(config, adapter);
-  var forgotPassword = new ForgotPassword(config, adapter);
+  var signup = new Signup(this.config, this.adapter);
+  var login = new Login(this.config, this.adapter);
+  var deleteAccount = new DeleteAccount(this.config, this.adapter);
+  var forgotPassword = new ForgotPassword(this.config, this.adapter);
 
   // router
-  var router = express.Router();
+  this.router = express.Router();
 
   // send all GET requests for lockit routes to '/index.html'
-  if (config.rest) {
-
-    var __parentDir = path.dirname(module.parent.filename);
-
-    var routes = [
-      config.signup.route,
-      config.signup.route + '/resend-verification',
-      config.signup.route + '/:token',
-      config.login.route,
-      config.login.logoutRoute,
-      config.forgotPassword.route,
-      config.forgotPassword.route + '/:token',
-      config.deleteAccount.route,
-    ];
-
-    routes.forEach(function(route) {
-      router.get(route, function(req, res) {
-        // check if user would like to render a file or use static html
-        if (config.rest.useViewEngine) {
-          res.render(config.rest.index, {
-            basedir: req.app.get('views')
-          });
-        } else {
-          res.sendfile(path.join(__parentDir, config.rest.index));
-        }
-      });
-    });
-
-  }
+  if (this.config.rest) this.rest();
 
   // expose name and email to template engine
-  router.use(function(req, res, next) {
+  this.router.use(function(req, res, next) {
     res.locals.name = req.session.name || '';
     res.locals.email = req.session.email || '';
-    // continue with next middleware
     next();
   });
 
   // add submodule routes
-  router.use(signup.router);
-  router.use(login.router);
-  router.use(deleteAccount.router);
-  router.use(forgotPassword.router);
-  this.router = router;
-
+  this.router.use(signup.router);
+  this.router.use(login.router);
+  this.router.use(deleteAccount.router);
+  this.router.use(forgotPassword.router);
 
   // pipe events to lockit
-  signup.on('signup', function(user, res) {
-    that.emit('signup', user, res);
-  });
+  var emitters = [signup, login, deleteAccount];
+  utils.pipe(emitters, that);
 
+  // special event for quick start
   signup.on('signup::post', function(user) {
-    if (config.db.url === 'sqlite://' && config.db.name === ':memory:') {
+    if (that.config.db.url === 'sqlite://' && that.config.db.name === ':memory:') {
+      message = 'http://localhost:3000/signup/' + user.signupToken;
       console.log(
         chalk.bgBlack.green('lockit'),
-        chalk.bgBlack.yellow('http://localhost:3000/signup/' + user.signupToken),
+        chalk.bgBlack.yellow(message),
         'cmd + double click on os x'
       );
     }
     that.emit('signup::post', user);
-  });
-
-  login.on('login', function(user, res, target) {
-    that.emit('login', user, res, target);
-  });
-
-  login.on('logout', function(user, res) {
-    that.emit('logout', user, res);
-  });
-
-  deleteAccount.on('delete', function(user, res) {
-    that.emit('delete', user, res);
   });
 
   events.EventEmitter.call(this);
@@ -133,3 +84,68 @@ var Lockit = module.exports = function(config) {
 };
 
 util.inherits(Lockit, events.EventEmitter);
+
+
+
+/**
+ * Use SQLite as fallback database.
+ *
+ * @private
+ */
+Lockit.prototype.database = function() {
+  this.config.db = {
+    url: 'sqlite://',
+    name: ':memory:',
+    collection: 'my_user_table'
+  };
+  var message = 'no db config found. Using SQLite.';
+  console.log(chalk.bgBlack.green('lockit'), message);
+};
+
+
+
+/**
+ * Stub emails.
+ *
+ * @private
+ */
+Lockit.prototype.email = function() {
+  var message = 'no email config found. Check your database for tokens.';
+  console.log(chalk.bgBlack.green('lockit'), message);
+};
+
+
+
+/**
+ * Send all routes to Single Page Application entry point.
+ *
+ * @private
+ */
+Lockit.prototype.rest = function() {
+  var that = this;
+  var __parentDir = path.dirname(module.parent.filename);
+
+  var routes = [
+    this.config.signup.route,
+    this.config.signup.route + '/resend-verification',
+    this.config.signup.route + '/:token',
+    this.config.login.route,
+    this.config.login.logoutRoute,
+    this.config.forgotPassword.route,
+    this.config.forgotPassword.route + '/:token',
+    this.config.deleteAccount.route,
+  ];
+
+  routes.forEach(function(route) {
+    that.router.get(route, function(req, res) {
+      // check if user would like to render a file or use static html
+      if (that.config.rest.useViewEngine) {
+        res.render(that.config.rest.index, {
+          basedir: req.app.get('views')
+        });
+      } else {
+        res.sendfile(path.join(__parentDir, that.config.rest.index));
+      }
+    });
+  });
+};
