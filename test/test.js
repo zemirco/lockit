@@ -142,4 +142,37 @@ describe('lockit', function() {
 
   });
 
+  describe('custom adapter', function() {
+
+    it('should use custom adapter from config.db.adapter', function(done) {
+
+      var adapter = {
+        save: function(name, email, pw, cb) {
+          name.should.equal('john');
+          email.should.equal('john@email.com');
+          pw.should.equal('password');
+          done();
+        },
+        find: function(query, match, cb) {
+          cb(null, false);
+        }
+      };
+
+      var config = require('./config');
+      config.port = 6000;
+      config.db = {
+        url: 'http://127.0.0.1:5984/',
+        adapter: adapter
+      };
+      app = require('./app.js')(config);
+
+      request(app)
+        .post('/signup')
+        .send({name: 'john', email: 'john@email.com', password: 'password'})
+        .end(function(err, res) {});
+
+    });
+
+  });
+
 });
