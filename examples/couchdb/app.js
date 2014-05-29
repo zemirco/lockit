@@ -10,9 +10,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
+var utils = require('lockit-utils');
 
 var app = express();
 
+var routes = require('./routes/index');
 var config = require('./config.js');
 var Lockit = require('../../');
 
@@ -28,6 +30,13 @@ app.use(cookieSession({
   secret: 'this is my super secret string'
 }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', routes);
+
+// private dummy route
+app.get('/private', utils.restrict(config), function(req, res) {
+  res.send('some private route');
+});
 
 var lockit = new Lockit(config);
 app.use(lockit.router);
