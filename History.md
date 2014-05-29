@@ -1,4 +1,12 @@
 
+##### 1.1.0 - 2014-05-29
+
+- expose db adapter as `lockit.adapter`
+- allow usage of custom db adapter (fix #15)
+- use `utils.pipe` method for event piping
+- update dependencies
+- add tests for event emitter
+
 ##### 1.0.0 - 2014-04-19
 
 - requires Express 4.x
