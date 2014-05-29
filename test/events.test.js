@@ -32,9 +32,12 @@ describe('events', function() {
 
   before(function(done) {
     lockit.adapter.save('event', 'event@email.com', 'password', function(err, user) {
+      if (err) console.log(err);
       lockit.adapter.find('name', 'event', function(err, user) {
+        if (err) console.log(err);
         user.emailVerified = true;
         lockit.adapter.update(user, function(err, user) {
+          if (err) console.log(err);
           done();
         });
       });
@@ -52,8 +55,10 @@ describe('events', function() {
       .post('/signup')
       .send({name: 'john', email: 'john@email.com', password: 'password'})
       .end(function(err, res) {
+        if (err) console.log(err);
         // get token from db
         lockit.adapter.find('name', 'john', function(err, user) {
+          if (err) console.log(err);
           // visit /signup/:token
           agent
             .get('/signup/' + user.signupToken)
@@ -71,7 +76,9 @@ describe('events', function() {
     agent
       .post('/login')
       .send({login:'event', password:'password'})
-      .end(function(err, res) {});
+      .end(function(err, res) {
+        if (err) console.log(err);
+      });
   });
 
   it('should emit "logout" event', function(done) {
@@ -81,7 +88,9 @@ describe('events', function() {
     });
     agent
       .get('/logout')
-      .end(function(err, res) {});
+      .end(function(err, res) {
+        if (err) console.log(err);
+      });
   });
 
   it('should emit "delete" event', function(done) {
@@ -96,12 +105,15 @@ describe('events', function() {
       .post('/login')
       .send({login:'event', password:'password'})
       .end(function(err, res) {
+        if (err) console.log(err);
         // post delete account
         process.nextTick(function() {
           agent
             .post('/delete-account')
             .send({name: 'event', password: 'password', phrase: 'please delete my account forever'})
-            .end(function(err, res) {});
+            .end(function(err, res) {
+              if (err) console.log(err);
+            });
         });
       });
   });
