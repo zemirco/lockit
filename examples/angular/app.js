@@ -15,7 +15,7 @@ var app = express();
 
 var config = require('./config.js');
 var Lockit = require('../../');
-var lockitUtils = require('lockit-utils');
+var utils = require('lockit-utils');
 
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -37,7 +37,7 @@ app.use(lockit.router);
  * JSON API
  */
 
-app.get('/rest/whoami', lockitUtils.restrict(config), function(req, res) {
+app.get('/rest/whoami', utils.restrict(config), function(req, res) {
   res.json({
     name: req.session.name
   });
