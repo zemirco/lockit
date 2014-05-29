@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1 Settings
+  h3 Two-factor authentication
+  ol
+    li Download #{''}
+      a(href="https://support.google.com/accounts/answer/1066447?hl=en") Google Authenticator
+    li Open Google Authenticator app on your phone
+    li Tap the pen icon in the top right corner
+    li Tap the plus icon
+    li Tap #{''}
+      strong Scan Barcode #{''}
+      | and then point your camera at the QR code on your computer screen
+    img(src=qr)
+    li.
+      The app will save your account and generate a new authentication code every
+      few seconds.
+    li Enter the token from the Google Authenticator app and click on "Enable"
+  form(method="POST", action="/settings")
+    input(type="text", id="token", name="token", placeholder="token")
+    input(type="submit", value="Enable")
+  if error
+    p: strong=error
