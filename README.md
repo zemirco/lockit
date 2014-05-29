@@ -5,6 +5,7 @@
 [![Dependency Status](https://david-dm.org/zemirco/lockit.svg)](https://david-dm.org/zemirco/lockit)
 
 Lockit is an authentication solution for [Express](http://expressjs.com/).
+Check out the [demo](http://arcane-caverns-2402.herokuapp.com/).
 
 It consists of multiple single purpose modules:
 
