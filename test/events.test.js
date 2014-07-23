@@ -93,6 +93,40 @@ describe('events', function() {
       });
   });
 
+  it('should emit "forgot::sent" event', function(done) {
+    lockit.removeAllListeners();
+    lockit.on('forgot::sent', function(user, res) {
+      user.name.should.equal('event');
+      done();
+    });
+    agent
+      .post('/forgot-password')
+      .send({email:'event@email.com'})
+      .end(function(err, res) {
+        if (err) console.log(err);
+      });
+  });
+
+  it('should emit "forgot::success" event', function(done) {
+    lockit.removeAllListeners();
+
+    lockit.on('forgot::success', function(user, res) {
+      user.name.should.equal('event');
+      done();
+    });
+
+    lockit.adapter.find('name', 'event', function(err, user) {
+      if (err) console.log(err);
+      token = user.pwdResetToken;
+      agent
+        .post('/forgot-password/' + token)
+        .send({password: 'new-password'})
+        .end(function(err, res) {
+          if (err) console.log(err);
+        });
+    });
+  });
+
   it('should emit "delete" event', function(done) {
     // remove 'login' event listener
     lockit.removeAllListeners();
@@ -103,14 +137,14 @@ describe('events', function() {
     // login first because last test logged agent out
     agent
       .post('/login')
-      .send({login:'event', password:'password'})
+      .send({login:'event', password:'new-password'})
       .end(function(err, res) {
         if (err) console.log(err);
         // post delete account
         process.nextTick(function() {
           agent
             .post('/delete-account')
-            .send({name: 'event', password: 'password', phrase: 'please delete my account forever'})
+            .send({name: 'event', password: 'new-password', phrase: 'please delete my account forever'})
             .end(function(err, res) {
               if (err) console.log(err);
             });
