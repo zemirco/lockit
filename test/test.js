@@ -37,7 +37,7 @@ describe('lockit', function() {
         request(app)
           .get(route)
           .end(function(err, res) {
-            res.text.should.include('This is index.html');
+            res.text.should.containEql('This is index.html');
             done();
           });
       });
@@ -79,7 +79,7 @@ describe('lockit', function() {
         request(app)
           .get(route)
           .end(function(err, res) {
-            res.text.should.include('This is from main.jade');
+            res.text.should.containEql('This is from main.jade');
             done();
           });
       });
@@ -105,7 +105,7 @@ describe('lockit', function() {
         .get('/signup')
         .end(function(err, res) {
           res.statusCode.should.equal(200);
-          res.text.should.include('<title>Sign up</title>');
+          res.text.should.containEql('<title>Sign up</title>');
           done();
         });
     });
@@ -115,7 +115,7 @@ describe('lockit', function() {
         .get('/login')
         .end(function(err, res) {
           res.statusCode.should.equal(200);
-          res.text.should.include('<title>Login</title>');
+          res.text.should.containEql('<title>Login</title>');
           done();
         });
     });
@@ -135,7 +135,7 @@ describe('lockit', function() {
         .get('/forgot-password')
         .end(function(err, res) {
           res.statusCode.should.equal(200);
-          res.text.should.include('<title>Forgot password</title>');
+          res.text.should.containEql('<title>Forgot password</title>');
           done();
         });
     });
