@@ -33,6 +33,8 @@ It consists of multiple single purpose modules:
   - [login](#login)
   - [logout](#logout)
   - [delete](#delete)
+  - [forgot::sent](#forgotsent)
+  - [forgot::success](#forgotsuccess)
 - [REST API](#rest-api)
 - [Sample config](#sample-config)
 - [Features](#features)
@@ -279,6 +281,33 @@ A user logged in. Callback function this time has three arguments.
 
 ```js
 lockit.on('login', function(user, res, target) {
+  // ...
+});
+```
+
+##### `forgot::sent`
+
+A user forgot the password and an email has been sent.
+Callback function has two arguments.
+
+- `user` is again the JSON object containing info about that particular user.
+- `res` is the normal Express.js response object with all properties and methods.
+
+```js
+lockit.on('forgot::sent', function(user, res) {
+  // ...
+});
+```
+
+##### `forgot::success`
+
+User has created a new password. Callback function has two arguments.
+
+- `user` is again the JSON object containing info about that particular user.
+- `res` is the normal Express.js response object with all properties and methods.
+
+```js
+lockit.on('forgot::success', function(user, res) {
   // ...
 });
 ```
