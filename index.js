@@ -63,7 +63,7 @@ var Lockit = module.exports = function(config) {
   this.router.use(forgotPassword.router);
 
   // pipe events to lockit
-  var emitters = [signup, login, deleteAccount];
+  var emitters = [signup, login, deleteAccount, forgotPassword];
   utils.pipe(emitters, that);
 
   // special event for quick start
