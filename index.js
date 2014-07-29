@@ -34,8 +34,13 @@ var Lockit = module.exports = function(config) {
   this.config = extend(true, configDefault, this.config);
 
   // create db adapter only once and pass it to modules
-  var db = utils.getDatabase(this.config);
-  this.adapter = this.config.db.adapter || require(db.adapter)(this.config);
+  if (this.config.db.adapter) {
+    this.adapter = this.config.db.adapter
+  } else {
+    var db = utils.getDatabase(this.config);
+    this.adapter = require(db.adapter)(this.config);
+  }
+
   // use configured sub modules
   var Signup = this.config.Signup || DefaultSignup;
   var Login = this.config.Login || DefaultLogin;
