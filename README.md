@@ -334,6 +334,8 @@ lockit.on('delete', function(user, res) {
 
 ## REST API
 
+### With default single page rendering
+
 In a single page application (SPA) all routing and template rendering is done on the client.
 Before version 0.5.0 Lockit caught relevant routes, like `/login` or `/signup`,
 and did the entire rendering on the server.
@@ -369,6 +371,45 @@ Here is a short example how the process works.
 
 I've built a [simple example](https://github.com/zemirco/lockit/tree/master/examples/angular)
 using AngularJS on the client side.
+
+### Without default single page rendering
+
+If you have your own SPA rendering logic, you can set the `exports.rest = true` or
+`exports.rest.index = false`. Example:
+
+```js
+exports.rest = {
+  // set index to false
+  index: false
+}
+```
+## Replace sub-module with yours
+
+You can replace sub-module with yours implementation. 
+```js
+exports.Login = require('my-lockit-login');
+```
+
+In `my-lockit-login`, you can include default `lockit-login` and rewrite some
+methods:
+```js
+var Login = require('lockit-login');
+var utils = require('utils');
+function MyLogin() {}
+utils.inherit(MyLogin, Login);
+MyLogin.prototype.postLogin = function() {
+  // do what you want
+}
+exports = MyLogin
+```
+
+Replacable sub-modules: 
+
+- `config.Login`
+- `config.Signup`
+- `config.DeleteAccount`
+- `config.ForgotPassword`
+
 
 ## Sample config
 
