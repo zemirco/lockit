@@ -122,6 +122,8 @@ Lockit.prototype.email = function() {
  * @private
  */
 Lockit.prototype.rest = function() {
+  if (!this.config.rest.index) return;
+
   var that = this;
   var __parentDir = path.dirname(module.parent.filename);
 
