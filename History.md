@@ -1,4 +1,9 @@
 
+##### 1.2.1 - 2014-08-18
+
+- fix bug where different lockit instances share the same config object
+- update dependencies
+
 ##### 1.2.0 - 2014-07-23
 
 - add events `'forgot::sent'` and `'forgot::success'`
