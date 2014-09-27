@@ -1,4 +1,9 @@
 
+##### 1.3.0 - 2014-09-27
+
+- update lockit-sendmail with nodemailer 1.x
+- update dependencies
+
 ##### 1.2.1 - 2014-08-18
 
 - fix bug where different lockit instances share the same config object
