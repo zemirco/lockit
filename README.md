@@ -181,13 +181,13 @@ That means that you won't receive any signup and password reset tokens.
 You have to look them up in your database and call the routes manually (e.g. `/signup/:token`).
 To send emails you need an email server and you have to change the settings in your `config.js`:
 
- - `emailType` - usually `SMTP`
+ - `emailType` - usually `nodemailer-smtp-transport`
  - `emailSettings` - see [nodemailer](https://github.com/andris9/Nodemailer) for more information
 
 With [mailgun](http://www.mailgun.com/pricing) you can send up to 10,000 emails per month for free.
 
 ```js
-exports.emailType = 'SMTP';
+exports.emailType = 'nodemailer-smtp-transport';
 exports.emailSettings = {
   service: 'Mailgun',
   auth: {
@@ -382,7 +382,7 @@ exports.appname = 'lockit - Test App';
 exports.url = 'http://localhost:3000';
 
 // email settings (same as nodemailer)
-exports.emailType = 'Stub';
+exports.emailType = 'nodemailer-stub-transport';
 exports.emailSettings = {
   service: 'none',
   auth: {
