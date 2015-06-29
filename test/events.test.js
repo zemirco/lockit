@@ -27,7 +27,7 @@ app.use(cookieSession({
 app.use(lockit.router);
 http.createServer(app).listen(7000);
 
-var should = require('should');
+var should = require('should'); // eslint-disable-line no-unused-vars
 var request = require('supertest');
 
 describe('events', function() {

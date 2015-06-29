@@ -1,3 +1,4 @@
+'use strict';
 
 /**
  * Module dependencies.
@@ -23,8 +24,8 @@ function start(config) {
   config = config || require('./config.js');
 
   // all environments
-  app.set('port', process.env.PORT || config.port ||  3000);
-  app.set('views', __dirname + '/views');
+  app.set('port', process.env.PORT || config.port || 3000);
+  app.set('views', path.join(__dirname, 'views'));
   app.set('view engine', 'jade');
   app.use(favicon());
   app.use(bodyParser.urlencoded());
@@ -40,7 +41,7 @@ function start(config) {
   app.use(lockit.router);
 
   // development only
-  if ('development' == app.get('env')) {
+  if (app.get('env') === 'development') {
     app.use(errorHandler());
   }
 

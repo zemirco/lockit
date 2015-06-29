@@ -1,7 +1,7 @@
 'use strict';
 
 var request = require('supertest');
-var should = require('should');
+var should = require('should'); // eslint-disable-line no-unused-vars
 
 describe('lockit', function() {
 
@@ -38,6 +38,7 @@ describe('lockit', function() {
         request(app)
           .get(route)
           .end(function(err, res) {
+            if (err) {console.log(err); }
             res.text.should.containEql('This is index.html');
             done();
           });
@@ -80,6 +81,7 @@ describe('lockit', function() {
         request(app)
           .get(route)
           .end(function(err, res) {
+            if (err) {console.log(err); }
             res.text.should.containEql('This is from main.jade');
             done();
           });
@@ -105,6 +107,7 @@ describe('lockit', function() {
       request(app)
         .get('/signup')
         .end(function(err, res) {
+          if (err) {console.log(err); }
           res.statusCode.should.equal(200);
           res.text.should.containEql('<title>Sign up</title>');
           done();
@@ -115,6 +118,7 @@ describe('lockit', function() {
       request(app)
         .get('/login')
         .end(function(err, res) {
+          if (err) {console.log(err); }
           res.statusCode.should.equal(200);
           res.text.should.containEql('<title>Login</title>');
           done();
@@ -125,6 +129,7 @@ describe('lockit', function() {
       request(app)
         .get('/delete-account')
         .end(function(err, res) {
+          if (err) {console.log(err); }
           // no session -> redirected to /login
           res.statusCode.should.equal(302);
           done();
@@ -135,6 +140,7 @@ describe('lockit', function() {
       request(app)
         .get('/forgot-password')
         .end(function(err, res) {
+          if (err) {console.log(err); }
           res.statusCode.should.equal(200);
           res.text.should.containEql('<title>Forgot password</title>');
           done();
@@ -148,7 +154,7 @@ describe('lockit', function() {
     it('should use custom adapter from config.db.adapter', function(done) {
 
       var adapter = {
-        save: function(name, email, pw, cb) {
+        save: function(name, email, pw) {
           name.should.equal('john');
           email.should.equal('john@email.com');
           pw.should.equal('password');
@@ -170,7 +176,9 @@ describe('lockit', function() {
       request(app)
         .post('/signup')
         .send({name: 'john', email: 'john@email.com', password: 'password'})
-        .end(function(err, res) {});
+        .end(function(err) {
+          if (err) {console.log(err); }
+        });
 
     });
 
