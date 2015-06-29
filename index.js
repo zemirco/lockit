@@ -1,3 +1,4 @@
+'use strict';
 
 var path = require('path');
 var events = require('events');
@@ -22,13 +23,13 @@ var configDefault = require('./config.default.js');
  */
 var Lockit = module.exports = function(config) {
 
-  if (!(this instanceof Lockit)) return new Lockit(config);
+  if (!(this instanceof Lockit)) {return new Lockit(config); }
 
   this.config = config || {};
   var that = this;
 
-  if (!this.config.db) this.database();
-  if (!this.config.emailType || !this.config.emailSettings) this.email();
+  if (!this.config.db) {this.database(); }
+  if (!this.config.emailType || !this.config.emailSettings) {this.email(); }
 
   // use default values for all values that aren't provided
   this.config = extend(true, {}, configDefault, this.config);
@@ -44,10 +45,10 @@ var Lockit = module.exports = function(config) {
   var forgotPassword = new ForgotPassword(this.config, this.adapter);
 
   // router
-  this.router = express.Router();
+  this.router = new express.Router();
 
   // send all GET requests for lockit routes to '/index.html'
-  if (this.config.rest) this.rest();
+  if (this.config.rest) {this.rest(); }
 
   // expose name and email to template engine
   this.router.use(function(req, res, next) {
@@ -69,7 +70,7 @@ var Lockit = module.exports = function(config) {
   // special event for quick start
   signup.on('signup::post', function(user) {
     if (that.config.db.url === 'sqlite://' && that.config.db.name === ':memory:') {
-      message = 'http://localhost:3000/signup/' + user.signupToken;
+      var message = 'http://localhost:3000/signup/' + user.signupToken;
       console.log(
         chalk.bgBlack.green('lockit'),
         chalk.bgBlack.yellow(message),
@@ -123,7 +124,7 @@ Lockit.prototype.email = function() {
  */
 Lockit.prototype.rest = function() {
   var that = this;
-  var __parentDir = path.dirname(module.parent.filename);
+  var parentDir = path.dirname(module.parent.filename);
 
   var routes = [
     this.config.signup.route,
@@ -133,7 +134,7 @@ Lockit.prototype.rest = function() {
     this.config.login.logoutRoute,
     this.config.forgotPassword.route,
     this.config.forgotPassword.route + '/:token',
-    this.config.deleteAccount.route,
+    this.config.deleteAccount.route
   ];
 
   routes.forEach(function(route) {
@@ -144,7 +145,7 @@ Lockit.prototype.rest = function() {
           basedir: req.app.get('views')
         });
       } else {
-        res.sendfile(path.join(__parentDir, that.config.rest.index));
+        res.sendfile(path.join(parentDir, that.config.rest.index));
       }
     });
   });
