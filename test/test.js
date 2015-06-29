@@ -1,3 +1,4 @@
+'use strict';
 
 var request = require('supertest');
 var should = require('should');
@@ -164,7 +165,7 @@ describe('lockit', function() {
         url: 'http://127.0.0.1:5984/',
         adapter: adapter
       };
-      app = require('./app.js')(config);
+      var app = require('./app.js')(config);
 
       request(app)
         .post('/signup')
