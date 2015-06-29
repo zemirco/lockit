@@ -6,13 +6,12 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "lockit": "~1.1.0",
-    "static-favicon": "^2.0.0-alpha",
-    "morgan": "^1.1.1",
-    "cookie-parser": "^1.1.0",
     "body-parser": "^1.2.2",
+    "cookie-parser": "^1.1.0",
     "cookie-session": "^1.0.2",
     "express": "^4.3.2",
-    "jade": "^1.3.1"
+    "jade": "^1.3.1",
+    "morgan": "^1.1.1",
+    "static-favicon": "^2.0.0-alpha"
   }
 }
