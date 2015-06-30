@@ -7,7 +7,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
-var Lockit = require('lockit');
+var Lockit = require('../../');
 var utils = require('lockit-utils');
 var uid = require('uid2');
 

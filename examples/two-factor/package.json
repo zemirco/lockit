@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "debug": "~0.7.4",
-    "lockit": "^1.1.0",
     "uid2": "0.0.3",
     "static-favicon": "^2.0.0-alpha",
     "morgan": "^1.1.1",
