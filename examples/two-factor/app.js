@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var path = require('path');
 var favicon = require('static-favicon');
@@ -37,13 +39,13 @@ app.use('/', routes);
 app.use('/users', users);
 
 // settings page
-app.get('/settings', utils.restrict(config), function(req, res) {
+app.get('/settings', utils.restrict(config), function(req, res, next) {
 
   var email = req.session.email;
 
   // get user from db
   adapter.find('email', email, function(err, user) {
-    if (err) return next(err);
+    if (err) {return next(err); }
 
     function render(key) {
       var options = {
@@ -56,26 +58,26 @@ app.get('/settings', utils.restrict(config), function(req, res) {
     }
 
     // check if user already has a key
-    if (user.twoFactorKey) return render(user.twoFactorKey);
+    if (user.twoFactorKey) {return render(user.twoFactorKey); }
 
     // generate random key for two-factor authentication
     user.twoFactorKey = uid(20);
 
     // save (new) key to db
-    adapter.update(user, function(err, user) {
-      if (err) return next(err);
-      render(user.twoFactorKey);
+    adapter.update(user, function(error, usr) {
+      if (error) {return next(error); }
+      render(usr.twoFactorKey);
     });
 
   });
 
 });
 
-app.post('/settings', utils.restrict(config), function(req, res) {
+app.post('/settings', utils.restrict(config), function(req, res, next) {
 
   // get user from db to get the key
   adapter.find('email', req.session.email, function(err, user) {
-    if (err) return next(err);
+    if (err) {return next(err); }
 
     var token = req.body.token;
     var key = user.twoFactorKey;
@@ -86,12 +88,10 @@ app.post('/settings', utils.restrict(config), function(req, res) {
       // update user in db
       user.twoFactorEnabled = true;
 
-      adapter.update(user, function(err, user) {
-        if (err) return next(err);
+      return adapter.update(user, function(error) {
+        if (error) {return next(error); }
         res.send('two-factor auth now enabled.\n log out and back in');
       });
-
-      return;
 
     }
 
