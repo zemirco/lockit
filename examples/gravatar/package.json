@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "lockit-couchdb-adapter": "~0.4.0",
-    "lockit": "~1.1.0",
     "static-favicon": "^2.0.0-alpha",
     "morgan": "^1.1.1",
     "cookie-parser": "^1.1.0",

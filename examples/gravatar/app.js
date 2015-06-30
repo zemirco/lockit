@@ -1,3 +1,4 @@
+'use strict';
 
 /**
  * Module dependencies.
@@ -80,12 +81,12 @@ lockit.on('signup', function(user, res) {
   user.gravatar = url;
 
   // save updated user to db
-  adapter.update(user, function(err, user) {
-    if (err) console.log(err);
+  adapter.update(user, function(err, usr) {
+    if (err) {console.log(err); }
 
     // now send a response to the client
     res.render('gravatar', {
-      name: user.name,
+      name: usr.name,
       gravatar: url
     });
 
