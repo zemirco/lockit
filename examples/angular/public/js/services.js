@@ -1,3 +1,4 @@
+'use strict';
 
 var services = angular.module('myApp.services', []);
 
@@ -10,7 +11,7 @@ services.factory('user', function($http, $cookies, $q){
       $http.post('/rest/login', {
         login: login,
         password: password
-      }).success(function(data) {
+      }).success(function() {
         // now get some information about the user
         $http.get('/rest/whoami').success(function(data) {
           $cookies.user = angular.toJson(data);

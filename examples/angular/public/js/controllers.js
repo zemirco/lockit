@@ -1,3 +1,4 @@
+'use strict';
 
 var app = angular.module('myApp.controllers', []);
 
@@ -46,10 +47,10 @@ app.controller('SignupCtrl', function ($scope, user) {
   $scope.submit = function() {
 
     user.signup($scope.name, $scope.email, $scope.password)
-      .success(function(data, status) {
+      .success(function() {
         $scope.error = false;
         $scope.success = 'Great! Check your inbox.';
-      }).error(function(data, status) {
+      }).error(function(data) {
         $scope.success = false;
         $scope.error = data.error;
       });
@@ -66,10 +67,10 @@ app.controller('SignupTokenCtrl', function ($scope, $routeParams, $http) {
   var token = $routeParams.token;
 
   $http.get('/rest/signup/' + token)
-    .success(function(data, status) {
+    .success(function() {
       $scope.success = true;
     })
-    .error(function(data, status) {
+    .error(function() {
       $scope.error = true;
     });
 
