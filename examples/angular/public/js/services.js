@@ -24,7 +24,7 @@ services.factory('user', function($http, $cookies, $q){
     },
     logout: function() {
       var deferred = $q.defer();
-      $http.get('/rest/logout')
+      $http.post('/rest/logout')
         .success(function() {
           delete $cookies.user;
           deferred.resolve();

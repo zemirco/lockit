@@ -89,7 +89,7 @@ describe('events', function() {
       done();
     });
     agent
-      .get('/logout')
+      .post('/logout')
       .end(function(err) {
         if (err) {console.log(err); }
       });
