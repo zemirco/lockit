@@ -550,7 +550,7 @@ From [lockit-login](https://github.com/zemirco/lockit-login)
  - GET /login
  - POST /login
  - POST /login/two-factor
- - GET /logout
+ - POST /logout
 
 From [lockit-forgot-password](https://github.com/zemirco/lockit-forgot-password)
 
