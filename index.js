@@ -6,10 +6,10 @@ var util = require('util');
 var express = require('express');
 var chalk = require('chalk');
 var extend = require('node.extend');
-var Signup = require('lockit-signup');
-var Login = require('lockit-login');
-var ForgotPassword = require('lockit-forgot-password');
-var DeleteAccount = require('lockit-delete-account');
+var DefaultSignup = require('lockit-signup');
+var DefaultLogin = require('lockit-login');
+var DefaultForgotPassword = require('lockit-forgot-password');
+var DefaultDeleteAccount = require('lockit-delete-account');
 var utils = require('lockit-utils');
 var configDefault = require('./config.default.js');
 
@@ -35,8 +35,18 @@ var Lockit = module.exports = function(config) {
   this.config = extend(true, {}, configDefault, this.config);
 
   // create db adapter only once and pass it to modules
-  var db = utils.getDatabase(this.config);
-  this.adapter = this.config.db.adapter || require(db.adapter)(this.config);
+  if (this.config.db.adapter) {
+    this.adapter = this.config.db.adapter
+  } else {
+    var db = utils.getDatabase(this.config);
+    this.adapter = require(db.adapter)(this.config);
+  }
+
+  // use configured sub modules
+  var Signup = this.config.Signup || DefaultSignup;
+  var Login = this.config.Login || DefaultLogin;
+  var DeleteAccount = this.config.DeleteAccount || DefaultDeleteAccount;
+  var ForgotPassword = this.config.ForgotPassword || DefaultForgotPassword;
 
   // load all required modules
   var signup = new Signup(this.config, this.adapter);
@@ -123,6 +133,9 @@ Lockit.prototype.email = function() {
  * @private
  */
 Lockit.prototype.rest = function() {
+  // do not set rest.index if do not want use default single page rendering
+  if (!this.config.rest.index) return;
+
   var that = this;
   var parentDir = path.dirname(module.parent.filename);
 
